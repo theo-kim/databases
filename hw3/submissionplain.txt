@@ -1,0 +1,116 @@
+/*
+Theodore Kim
+JinZhao Su
+CS-UY 3083: Introduction to Databases
+Homework #3
+*/
+
+
+--1
+SELECT MAX(max_eps) FROM tvseries
+ 
+--2
+SELECT title, max_eps
+FROM tvseries 
+WHERE max_eps = (SELECT MAX(max_eps) 
+       FROM tvseries) 
+
+--3
+SELECT COUNT(*) 
+FROM tvseries
+WHERE year < 2000
+ 
+--4
+SELECT first_name, last_name
+FROM favorite
+WHERE year < 2000 
+
+--5
+SELECT first_name, last_name
+FROM watches
+GROUP BY first_name, last_name
+HAVING COUNT(*) > 5
+ 
+--6
+SELECT COUNT(DISTINCT ID, course_id) 
+FROM takes
+WHERE course_id = "CS-101"
+ 
+--7
+SELECT grade, COUNT(*) AS num
+FROM takes
+WHERE course_id="CS-101"
+GROUP BY grade
+ 
+--8
+SELECT ID, COUNT(DISTINCT ID, course_id) AS num
+FROM takes
+GROUP BY ID
+ 
+--9
+SELECT t.ID, SUM(c.credits) AS passed_cred 
+FROM takes AS t 
+JOIN course AS c ON c.course_id = t.course_id
+WHERE t.grade IS NOT NULL AND t.grade != "F"
+GROUP BY t.ID
+ 
+--10
+SELECT DISTINCT s.ID, s.name
+FROM student AS s
+JOIN (SELECT ID, COUNT(*) AS num_courses FROM takes GROUP BY ID) AS t ON t.ID = s.ID
+WHERE s.dept_name = "Comp. Sci." AND t.num_courses < 2
+ 
+--11
+SELECT dept_name, AVG(credits) AS avg_credits 
+FROM course 
+GROUP BY dept_name
+ 
+--12
+SELECT building, year, COUNT(*) AS sections_taught
+FROM section 
+GROUP BY building, year
+ 
+--13
+SELECT DISTINCT ID 
+FROM takes 
+WHERE course_id="CS-315" AND course_id LIKE "Bio%" 
+
+--14
+SELECT DISTINCT t1.ID
+FROM takes AS t1
+JOIN (SELECT ID, COUNT(*) AS cscount FROM takes WHERE course_id LIKE “CS%” GROUP BY ID) AS t2
+ON t1.ID = t2.ID
+WHERE t1.course_id = "CS-101" AND t2.cscount = 1 
+
+--15
+SELECT MAX(salary) FROM instructor WHERE dept_name = "Physics"
+
+--16
+SELECT name
+FROM instructor AS t1
+JOIN (SELECT dept_name, MAX(salary) AS max_salary 
+FROM instructor
+GROUP BY dept_name) AS t2 
+ON t2.dept_name = t1.dept_name AND t2.max_salary = t1.salary
+WHERE t1.dept_name = "Comp. Sci." 
+
+--17
+SELECT student.name
+FROM student
+JOIN takes ON takes.ID = student.ID 
+WHERE takes.grade = "A"
+GROUP BY student.name
+HAVING COUNT(*) = (SELECT MAX(num) AS max_a 
+FROM (SELECT ID, COUNT(*) AS num 
+  FROM takes 
+  WHERE grade = "A"
+  	  GROUP BY ID) AS t1)  
+
+--18
+SELECT dept_name
+FROM instructor
+GROUP BY dept_name
+HAVING AVG(salary) = (SELECT MAX(avg_salary) 
+FROM (SELECT AVG(salary) AS avg_salary
+FROM instructor
+GROUP BY dept_name) AS t1)
