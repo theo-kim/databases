@@ -69,7 +69,25 @@ SELECT COUNT(course_id) FROM course WHERE dept_name="Comp. Sci."
 -- Now, instead of focusing on instructor 12345, enclose the predicate you just wrote in a query that will check whether an arbitrary instructor i taught all Comp Sci courses.
 
 SELECT ID FROM instructor NATURAL JOIN teaches WHERE teaches.course_id LIKE "CS%" GROUP BY ID HAVING COUNT(*) = (SELECT COUNT(*) FROM course WHERE dept_name="Comp. Sci."); 
+
 --1.10
+--Number of shows that Gene Guo watches
+SELECT COUNT(*) FROM watches WHERE first_name = "Gene" AND last_name = "Guo"
+
+--Number of shows a person watches
+SELECT COUNT(*) FROM watches GROUP BY first_name, last_name
+
+--Predicate
+SELECT COUNT(*) FROM watches GROUP BY first_name, last_name HAVING COUNT(*) = (SELECT COUNT(*) FROM watches WHERE first_name = "Gene" AND last_name = "Guo")
+
+--Final Query
+SELECT first_name, last_name
+FROM watches
+JOIN (SELECT DISTINCT title, year FROM watches WHERE first_name = "Gene" AND last_name = "Guo") AS t1 ON t1.title=watches.title
+GROUP BY first_name, last_name
+HAVING first_name != "Gene" 
+AND last_name != "Guo" 
+AND COUNT(*) = (SELECT COUNT(*) FROM watches WHERE first_name = "Gene" AND last_name = "Guo");
   
  
 --1.11
@@ -84,3 +102,24 @@ WHERE watches.first_name IS NULL
 SELECT course.course_id, ID
 FROM course
 LEFT JOIN teaches ON course.course_id = teaches.course_id
+
+--2.3
+
+CREATE FUNCTION untaught_section (id int, cid varchar(8), s varchar(6), y decimal(4, 0))
+RETURNS integer
+BEGIN
+DECLARE s_count INTEGER;
+SELECT COUNT(*) INTO s_count
+FROM section
+LEFT JOIN teaches ON teaches.sec_id = section.sec_id AND teaches.course_id = section.course_id
+WHERE section.sec_id = id 
+AND teaches.ID IS NOT NULL
+AND section.course_id = cid
+AND section.semester = s
+AND section.year = y;
+RETURN s_count;
+END;
+
+ALTER TABLE takes
+ADD CONSTRAINT untaught_constraint CHECK (untaught_section(sec_id, course_id, semester, year) > 0);
+
