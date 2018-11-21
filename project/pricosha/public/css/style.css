@@ -1,0 +1,49 @@
+body {
+	font-family: sans-serif;
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+h1, h2, h3, h4 {
+	padding: 5px;
+}
+
+button {
+	font-size :18px;
+	background: #ddd;
+	border: 0;
+	padding: 5px 10px;
+	margin: 20px;
+}
+
+#footer {
+	background: #ddd;
+	padding: 10px;
+	font-size: 12px;
+	margin: 20px;
+}
+
+.contentitem {
+	padding: 10px;
+	display: inline-block;
+	background: #eee;
+	margin: 10px;
+	font-size: 18px;
+}
+
+.title {
+	font-weight: bold;
+	font-size: 24px;
+	padding-bottom: 5px;
+}
+
+.item-id {
+	color: #888;
+	font-size: 14px;
+}
+
+.post-time {
+	color: #333;
+	font-size: 16px;
+	padding-bottom: 10px;
+}

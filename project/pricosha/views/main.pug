@@ -4,10 +4,31 @@ block content
 	h1 PriCoSha
 	h2 Pivate Content Sharing
 
-	
+	- if (loggedin)
+		h3 Hello #{user.fname}!
 
+		h4 Public Posts
+		button#new-group Create a New Friend Group
+		button#show-post Post New Content
+		button#logout Logout
+	- else
+		h3 Recent Public Posts
+		div#public-posts
+		h3 Please Login to the System
+		div
+			input#email(type="email")
+		div
+			input#pass(type="password")
+		div
+			button#login-btn Login
+	
+	br
+
+	hr
 	#footer
 		div PriCoSha
 		div An academic project by Theodore Kim and JinZhao Su
 		div Source: https://github.com/theo-kim/databases/project/pricosha
 		div Version 0.0.1
+
+	script(src="scripts/main.js")

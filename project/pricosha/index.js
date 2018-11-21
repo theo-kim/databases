@@ -6,22 +6,30 @@ const sql = require('./db');
 
 // Import other utilizity modules
 var path = require('path');
+var debug = require('debug')('pricosha');
+var http = require('http');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+
+// Import API Routing
+var site = require('./routes');
+var api = require('./routes/api');
 
 // Initialize server object
 var app = express();
-var debug = require('debug')('pricosha');
-var http = require('http');
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 
 // Specify the utilized directories: views and public resources (i.e. JS and CSS)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-// Default routing
-app.get('/', (req, res, next) => {
-	res.render('main');
-});
+// app routing
+app.use('/', site);
+app.use('/api', api);
 
 
 // CODE TAKEN FROM DEFAULT EXPRESS APP BOILERPLATE:

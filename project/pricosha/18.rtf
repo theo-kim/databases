@@ -1,0 +1,934 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fmodern\fcharset0 Courier-Bold;\f1\fmodern\fcharset0 Courier-Oblique;\f2\fmodern\fcharset0 Courier;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red64\green128\blue128;\red0\green128\blue0;
+\red102\green102\blue102;\red186\green33\blue33;\red188\green122\blue0;\red0\green0\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\csgenericrgb\c25098\c50196\c50196;\csgenericrgb\c0\c50196\c0;
+\csgenericrgb\c40000\c40000\c40000;\csgenericrgb\c72941\c12941\c12941;\csgenericrgb\c73725\c47843\c0;\csgenericrgb\c0\c0\c100000;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}  }{\leveltext\leveltemplateid1\'03\'00  ;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}  }{\leveltext\leveltemplateid101\'03\'00  ;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}  }{\leveltext\leveltemplateid201\'03\'00  ;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}  }{\leveltext\leveltemplateid301\'03\'00  ;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}  }{\leveltext\leveltemplateid401\'03\'00  ;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid5}
+{\list\listtemplateid6\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}  }{\leveltext\leveltemplateid501\'03\'00  ;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid6}
+{\list\listtemplateid7\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}  }{\leveltext\leveltemplateid601\'03\'00  ;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid7}
+{\list\listtemplateid8\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}  }{\leveltext\leveltemplateid701\'03\'00  ;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid8}
+{\list\listtemplateid9\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}  }{\leveltext\leveltemplateid801\'03\'00  ;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{hyphen\}}{\leveltext\leveltemplateid802\'01\uc0\u8259 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid9}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}{\listoverride\listid6\listoverridecount0\ls6}{\listoverride\listid7\listoverridecount0\ls7}{\listoverride\listid8\listoverridecount0\ls8}{\listoverride\listid9\listoverridecount0\ls9}}
+\vieww28600\viewh16600\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf2 SOURCE CODE\
+NOTE: 3rd Party Package\'92s Source Code not shown:\
+	>> express\
+	>> jquery\
+	>> mysql (mysql interface for nodejs)\
+	>> jsonwebtoken\
+	...etc...\
+\
+NOTE: Pug (.pug files) is an HTML Preprocessor Scripting Language (to make HTML coding quicker)\
+\
+FILE: ./index.js\
+\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i\b0 \cf3 {\listtext	1  	}// Import Express Server Framework\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0\i0\b \cf4 {\listtext	2  	}var
+\f2\b0 \cf0  express \cf5 =\cf0  require(\cf6 'express'\cf0 );\
+{\listtext	3  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	4  	}// Import query abstraction\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0\i0\b \cf4 {\listtext	5  	}const
+\f2\b0 \cf0  sql \cf5 =\cf0  require(\cf6 './db'\cf0 );\
+{\listtext	6  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	7  	}// Import other utilizity modules\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0\i0\b \cf4 {\listtext	8  	}var
+\f2\b0 \cf0  path \cf5 =\cf0  require(\cf6 'path'\cf0 );\
+\ls1\ilvl0
+\f0\b \cf4 {\listtext	9  	}var
+\f2\b0 \cf0  debug \cf5 =\cf0  require(\cf6 'debug'\cf0 )(\cf6 'pricosha'\cf0 );\
+\ls1\ilvl0
+\f0\b \cf4 {\listtext	10  	}var
+\f2\b0 \cf0  http \cf5 =\cf0  require(\cf6 'http'\cf0 );\
+\ls1\ilvl0
+\f0\b \cf4 {\listtext	11  	}var
+\f2\b0 \cf0  cookieParser \cf5 =\cf0  require(\cf6 'cookie-parser'\cf0 );\
+\ls1\ilvl0
+\f0\b \cf4 {\listtext	12  	}var
+\f2\b0 \cf0  bodyParser \cf5 =\cf0  require(\cf6 'body-parser'\cf0 );\
+{\listtext	13  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	14  	}// Import API Routing\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0\i0\b \cf4 {\listtext	15  	}var
+\f2\b0 \cf0  site \cf5 =\cf0  require(\cf6 './routes'\cf0 );\
+\ls1\ilvl0
+\f0\b \cf4 {\listtext	16  	}var
+\f2\b0 \cf0  api \cf5 =\cf0  require(\cf6 './routes/api'\cf0 );\
+{\listtext	17  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	18  	}// Initialize server object\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0\i0\b \cf4 {\listtext	19  	}var
+\f2\b0 \cf0  app \cf5 =\cf0  express();\
+{\listtext	20  	}app.use(cookieParser());\
+{\listtext	21  	}app.use(bodyParser.json());\
+{\listtext	22  	}app.use(bodyParser.urlencoded(\{ extended\cf5 :\cf0  
+\f0\b \cf4 false
+\f2\b0 \cf0  \}));\
+{\listtext	23  	}\
+{\listtext	24  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	25  	}// Specify the utilized directories: views and public resources (i.e. JS and CSS)\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f2\i0 \cf0 {\listtext	26  	}app.set(\cf6 'views'\cf0 , path.join(__dirname, \cf6 'views'\cf0 ));\
+{\listtext	27  	}app.set(\cf6 'view engine'\cf0 , \cf6 'pug'\cf0 );\
+{\listtext	28  	}app.use(express.
+\f0\b \cf4 static
+\f2\b0 \cf0 (path.join(__dirname, \cf6 'public'\cf0 )));\
+{\listtext	29  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	30  	}// app routing\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f2\i0 \cf0 {\listtext	31  	}app.use(\cf6 '/'\cf0 , site);\
+{\listtext	32  	}app.use(\cf6 '/api'\cf0 , api);\
+{\listtext	33  	}\
+{\listtext	34  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	35  	}// CODE TAKEN FROM DEFAULT EXPRESS APP BOILERPLATE:\
+{\listtext	36  	}// https://github.com/express/example\
+{\listtext	37  	}// catch 404 and forward to error handler\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f2\i0 \cf0 {\listtext	38  	}app.use(
+\f0\b \cf4 function
+\f2\b0 \cf0 (req, res, next) \{\
+{\listtext	39  	}  
+\f0\b \cf4 var
+\f2\b0 \cf0  err \cf5 =\cf0  
+\f0\b \cf4 new
+\f2\b0 \cf0  \cf4 Error\cf0 (\cf6 'Not Found'\cf0 );\
+{\listtext	40  	}  err.status \cf5 =\cf0  \cf5 404\cf0 ;\
+{\listtext	41  	}  next(err);\
+{\listtext	42  	}\});\
+{\listtext	43  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	44  	}// error handler\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f2\i0 \cf0 {\listtext	45  	}app.use(
+\f0\b \cf4 function
+\f2\b0 \cf0 (err, req, res, next) \{\
+{\listtext	46  	}  
+\f1\i \cf3 // set locals, only providing error in development\
+\ls1\ilvl0
+\f2\i0 \cf0 {\listtext	47  	}  res.locals.message \cf5 =\cf0  err.message;\
+{\listtext	48  	}  res.locals.error \cf5 =\cf0  req.app.get(\cf6 'env'\cf0 ) \cf5 ===\cf0  \cf6 'development'\cf0  \cf5 ?\cf0  err \cf5 :\cf0  \{\};\
+{\listtext	49  	}\
+{\listtext	50  	}  
+\f1\i \cf3 // render the error page\
+\ls1\ilvl0
+\f2\i0 \cf0 {\listtext	51  	}  res.status(err.status \cf5 ||\cf0  \cf5 500\cf0 );\
+{\listtext	52  	}  res.render(\cf6 'error'\cf0 );\
+{\listtext	53  	}\});\
+{\listtext	54  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0\b \cf4 {\listtext	55  	}var
+\f2\b0 \cf0  port \cf5 =\cf0  normalizePort(process.env.PORT \cf5 ||\cf0  \cf6 '3000'\cf0 );\
+{\listtext	56  	}app.set(\cf6 'port'\cf0 , port);\
+{\listtext	57  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	58  	}/**\
+{\listtext	59  	} * Create HTTP server.\
+{\listtext	60  	} */
+\f2\i0 \cf0 \
+{\listtext	61  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0\b \cf4 {\listtext	62  	}var
+\f2\b0 \cf0  server \cf5 =\cf0  http.createServer(app);\
+{\listtext	63  	}\
+{\listtext	64  	}server.listen(port);\
+{\listtext	65  	}server.on(\cf6 'error'\cf0 , onError);\
+{\listtext	66  	}server.on(\cf6 'listening'\cf0 , onListening);\
+{\listtext	67  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	68  	}/**\
+{\listtext	69  	} * Normalize a port into a number, string, or false.\
+{\listtext	70  	} */
+\f2\i0 \cf0 \
+{\listtext	71  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0\b \cf4 {\listtext	72  	}function
+\f2\b0 \cf0  normalizePort(val) \{\
+{\listtext	73  	}  
+\f0\b \cf4 var
+\f2\b0 \cf0  port \cf5 =\cf0  \cf4 parseInt\cf0 (val, \cf5 10\cf0 );\
+{\listtext	74  	}\
+{\listtext	75  	}  
+\f0\b \cf4 if
+\f2\b0 \cf0  (\cf4 isNaN\cf0 (port)) \{\
+{\listtext	76  	}    
+\f1\i \cf3 // named pipe\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f2\i0 \cf0 {\listtext	77  	}    
+\f0\b \cf4 return
+\f2\b0 \cf0  val;\
+{\listtext	78  	}  \}\
+{\listtext	79  	}\
+{\listtext	80  	}  
+\f0\b \cf4 if
+\f2\b0 \cf0  (port \cf5 >=\cf0  \cf5 0\cf0 ) \{\
+{\listtext	81  	}    
+\f1\i \cf3 // port number\
+\ls1\ilvl0
+\f2\i0 \cf0 {\listtext	82  	}    
+\f0\b \cf4 return
+\f2\b0 \cf0  port;\
+{\listtext	83  	}  \}\
+{\listtext	84  	}\
+{\listtext	85  	}  
+\f0\b \cf4 return
+\f2\b0 \cf0  
+\f0\b \cf4 false
+\f2\b0 \cf0 ;\
+{\listtext	86  	}\}\
+{\listtext	87  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	88  	}/**\
+{\listtext	89  	} * Event listener for HTTP server "error" event.\
+{\listtext	90  	} */
+\f2\i0 \cf0 \
+{\listtext	91  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0\b \cf4 {\listtext	92  	}function
+\f2\b0 \cf0  onError(error) \{\
+{\listtext	93  	}  
+\f0\b \cf4 if
+\f2\b0 \cf0  (error.syscall \cf5 !==\cf0  \cf6 'listen'\cf0 ) \{\
+{\listtext	94  	}    
+\f0\b \cf4 throw
+\f2\b0 \cf0  error;\
+{\listtext	95  	}  \}\
+{\listtext	96  	}\
+{\listtext	97  	}  
+\f0\b \cf4 var
+\f2\b0 \cf0  bind \cf5 =\cf0  
+\f0\b \cf4 typeof
+\f2\b0 \cf0  port \cf5 ===\cf0  \cf6 'string'\cf0 \
+{\listtext	98  	}    \cf5 ?\cf0  \cf6 'Pipe '\cf0  \cf5 +\cf0  port\
+{\listtext	99  	}    \cf5 :\cf0  \cf6 'Port '\cf0  \cf5 +\cf0  port;\
+{\listtext	100  	}\
+{\listtext	101  	}  
+\f1\i \cf3 // handle specific listen errors with friendly messages\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f2\i0 \cf0 {\listtext	102  	}  
+\f0\b \cf4 switch
+\f2\b0 \cf0  (error.code) \{\
+{\listtext	103  	}    
+\f0\b \cf4 case
+\f2\b0 \cf0  \cf6 'EACCES'\cf5 :\cf0 \
+{\listtext	104  	}      console.error(bind \cf5 +\cf0  \cf6 ' requires elevated privileges'\cf0 );\
+{\listtext	105  	}      process.exit(\cf5 1\cf0 );\
+{\listtext	106  	}      
+\f0\b \cf4 break
+\f2\b0 \cf0 ;\
+{\listtext	107  	}    
+\f0\b \cf4 case
+\f2\b0 \cf0  \cf6 'EADDRINUSE'\cf5 :\cf0 \
+{\listtext	108  	}      console.error(bind \cf5 +\cf0  \cf6 ' is already in use'\cf0 );\
+{\listtext	109  	}      process.exit(\cf5 1\cf0 );\
+{\listtext	110  	}      
+\f0\b \cf4 break
+\f2\b0 \cf0 ;\
+{\listtext	111  	}    
+\f0\b \cf4 default
+\f2\b0 \cf5 :\cf0 \
+{\listtext	112  	}      
+\f0\b \cf4 throw
+\f2\b0 \cf0  error;\
+{\listtext	113  	}  \}\
+{\listtext	114  	}\}\
+{\listtext	115  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1\i \cf3 {\listtext	116  	}/**\
+{\listtext	117  	} * Event listener for HTTP server "listening" event.\
+{\listtext	118  	} */
+\f2\i0 \cf0 \
+{\listtext	119  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0\b \cf4 {\listtext	120  	}function
+\f2\b0 \cf0  onListening() \{\
+{\listtext	121  	}  
+\f0\b \cf4 var
+\f2\b0 \cf0  addr \cf5 =\cf0  server.address();\
+{\listtext	122  	}  
+\f0\b \cf4 var
+\f2\b0 \cf0  bind \cf5 =\cf0  
+\f0\b \cf4 typeof
+\f2\b0 \cf0  addr \cf5 ===\cf0  \cf6 'string'\cf0 \
+{\listtext	123  	}    \cf5 ?\cf0  \cf6 'pipe '\cf0  \cf5 +\cf0  addr\
+{\listtext	124  	}    \cf5 :\cf0  \cf6 'port '\cf0  \cf5 +\cf0  addr.port;\
+{\listtext	125  	}  debug(\cf6 'Listening on '\cf0  \cf5 +\cf0  bind);\
+{\listtext	126  	}\}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li727\fi-728\pardirnatural\partightenfactor0
+
+\f0\b \cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf2 \
+FILE: ./db.js\
+\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0
+\f1\i\b0 \cf3 {\listtext	1  	}// Import mysql interface\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0
+\f0\i0\b \cf4 {\listtext	2  	}const
+\f2\b0 \cf0  mysql \cf5 =\cf0  require(\cf6 "mysql"\cf0 );\
+{\listtext	3  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0
+\f1\i \cf3 {\listtext	4  	}// Create connection to MAMP server\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0
+\f0\i0\b \cf4 {\listtext	5  	}const
+\f2\b0 \cf0  connection \cf5 =\cf0  mysql.createConnection(\{\
+{\listtext	6  	}host \cf5 :\cf0  \cf6 "localhost"\cf0 ,\
+{\listtext	7  	}port \cf5 :\cf0  \cf6 "8889"\cf0 ,\
+{\listtext	8  	}user\cf5 :\cf0  \cf6 "root"\cf0 ,\
+{\listtext	9  	}password \cf5 :\cf0  \cf6 "root"\cf0 ,\
+{\listtext	10  	}database \cf5 :\cf0  \cf6 "pricosha"\cf0 \
+{\listtext	11  	}\});\
+{\listtext	12  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0
+\f1\i \cf3 {\listtext	13  	}// Define easy abstraction for making sql queries\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0
+\f0\i0\b \cf4 {\listtext	14  	}const
+\f2\b0 \cf0  query \cf5 =\cf0  
+\f0\b \cf4 function
+\f2\b0 \cf0  (query, values) \{\
+{\listtext	15  	}
+\f0\b \cf4 return
+\f2\b0 \cf0  
+\f0\b \cf4 new
+\f2\b0 \cf0  Promise((resolve, reject) \cf5 =>\cf0  \{\
+{\listtext	16  	}
+\f0\b \cf4 if
+\f2\b0 \cf0  (\cf5 !\cf0 values \cf5 &&\cf0  query.includes(\cf6 "?"\cf0 ))\
+{\listtext	17  	}	reject(\cf6 "Your query includes placeholders, but you don't provide binding values"\cf0 );\
+{\listtext	18  	}connection.query(\{\
+{\listtext	19  	}	sql\cf5 :\cf0  query,\
+{\listtext	20  	}	values\cf5 :\cf0  values\
+{\listtext	21  	}\}, 
+\f0\b \cf4 function
+\f2\b0 \cf0  (error, results, fields) \{\
+{\listtext	22  	}	
+\f0\b \cf4 if
+\f2\b0 \cf0  (error) reject(error);\
+{\listtext	23  	}	
+\f0\b \cf4 else
+\f2\b0 \cf0  \{\
+{\listtext	24  	}		resolve(results, fields);\
+{\listtext	25  	}	\}\
+{\listtext	26  	}\})\
+{\listtext	27  	}\})\
+{\listtext	28  	}\}\
+{\listtext	29  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0
+\f1\i \cf3 {\listtext	30  	}// export module\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0
+\f2\i0 \cf0 {\listtext	31  	}module.exports \cf5 =\cf0  query;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\b \cf2 FILE: ./views/layout.pug\
+\
+\pard\tx220\tx720\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li720\fi-720\pardirnatural\partightenfactor0
+\ls3\ilvl0
+\f2\b0 \cf2 {\listtext	1  	}doctype html\
+{\listtext	2  	}html\
+{\listtext	3  	}  head\
+{\listtext	4  	}    title PriCoSha\
+{\listtext	5  	}    link(rel='stylesheet', href='/css/style.css')\
+{\listtext	6  	}    script(src="/js/jquery.min.js")\
+{\listtext	7  	}    script(src="/js/jquery.cookie.js")\
+{\listtext	8  	}  body\
+{\listtext	9  	}    block content
+\f0\b \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf2 \
+FILE: ./views/error.pug\
+\
+\pard\tx220\tx720\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li720\fi-720\pardirnatural\partightenfactor0
+\ls4\ilvl0
+\f2\b0 \cf2 {\listtext	1  	}extends layout\
+{\listtext	2  	}\
+{\listtext	3  	}block content\
+{\listtext	4  	}  h1= message\
+{\listtext	5  	}  h2= error.status\
+{\listtext	6  	}  pre #\{error.stack\}
+\f0\b \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf2 \
+\
+FILE: ./views/main.pug\
+\
+\pard\tx220\tx720\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li720\fi-720\pardirnatural\partightenfactor0
+\ls5\ilvl0
+\f2\b0 \cf2 {\listtext	1  	}extends layout\
+{\listtext	2  	}\
+{\listtext	3  	}block content\
+{\listtext	4   	}h1 PriCoSha\
+{\listtext	5   	}h2 Pivate Content Sharing\
+{\listtext	6  	}\
+{\listtext	7   	}- if (loggedin)\
+{\listtext	8  	}     h3 Hello #\{user.fname\}!\
+{\listtext	9  	}     h4 Public Posts\
+{\listtext	11  	}  button#new-group Create a New Friend Group\
+{\listtext	12  	}  button#show-post Post New Content\
+{\listtext	13  	}  button#logout Logout\
+	14    - else\
+{\listtext	15  	}  h3 Recent Public Posts\
+{\listtext	16  	}  div#public-posts\
+{\listtext	17  	}  h3 Please Login to the System\
+	18      div\
+{\listtext	19  	}	input#email(type="email")\
+{\listtext	20  	}  div\
+{\listtext	21  	}	input#pass(type="password")\
+{\listtext	22  	}  div\
+{\listtext	23  	}	button#login-btn Login\
+{\listtext	24  	}\
+	25    br\
+{\listtext	26  	}\
+	27    hr\
+	28    #footer\
+{\listtext	29  	}  div PriCoSha\
+{\listtext	30  	}  div An academic project by Theodore Kim and JinZhao Su\
+{\listtext	31  	}  div Source: https://github.com/theo-kim/databases/project/pricosha\
+{\listtext	32  	}  div Version 0.0.1\
+{\listtext	33  	}\
+	34    script(src="scripts/main.js")
+\f0\b \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf2 \
+\
+FILE: ./routes/index.js\
+\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls6\ilvl0\cf4 {\listtext	1  	}var
+\f2\b0 \cf0  express \cf5 =\cf0  require(\cf6 'express'\cf0 );\
+\ls6\ilvl0
+\f0\b \cf4 {\listtext	2  	}var
+\f2\b0 \cf0  router \cf5 =\cf0  express.Router();\
+\ls6\ilvl0
+\f0\b \cf4 {\listtext	3  	}var
+\f2\b0 \cf0  jwt \cf5 =\cf0  require(\cf6 'jsonwebtoken'\cf0 );\
+\ls6\ilvl0
+\f0\b \cf4 {\listtext	4  	}var
+\f2\b0 \cf0  jwtsecret \cf5 =\cf0  require(\cf6 '../server_config.json'\cf0 ).serversecret;\
+{\listtext	5  	}\
+{\listtext	6  	}router.get(\cf6 '/'\cf0 , (req, res, next) \cf5 =>\cf0  \{\
+{\listtext	7  	}
+\f0\b \cf4 var
+\f2\b0 \cf0  usertoken, user;\
+{\listtext	8  	}
+\f0\b \cf4 if
+\f2\b0 \cf0  (req.cookies.usertoken \cf5 !=\cf0  
+\f0\b \cf4 null
+\f2\b0 \cf0 ) \
+{\listtext	9  	}usertoken \cf5 =\cf0  req.cookies.usertoken;\
+{\listtext	10  	}
+\f0\b \cf4 else
+\f2\b0 \cf0  usertoken \cf5 =\cf0  
+\f0\b \cf4 null
+\f2\b0 \cf0 ;\
+{\listtext	11  	}\
+{\listtext	12  	}
+\f0\b \cf4 if
+\f2\b0 \cf0  (usertoken \cf5 !==\cf0  
+\f0\b \cf4 null
+\f2\b0 \cf0 ) \{\
+{\listtext	13  	}
+\f0\b \cf4 try
+\f2\b0 \cf0  \{\
+{\listtext	14  	}	user \cf5 =\cf0  jwt.verify(usertoken, jwtsecret);\
+{\listtext	15  	}\}\
+{\listtext	16  	}
+\f0\b \cf4 catch
+\f2\b0 \cf0  (e) \{\
+{\listtext	17  	}	usertoken \cf5 =\cf0  
+\f0\b \cf4 null
+\f2\b0 \cf0 ;\
+{\listtext	18  	}	user \cf5 =\cf0  
+\f0\b \cf4 null
+\f2\b0 \cf0 ;\
+{\listtext	19  	}\}\
+{\listtext	20  	}\}\
+{\listtext	21  	}\
+{\listtext	22  	}
+\f0\b \cf4 var
+\f2\b0 \cf0  state \cf5 =\cf0  \{\
+{\listtext	23  	}loggedin\cf5 :\cf0  usertoken \cf5 !==\cf0  
+\f0\b \cf4 null
+\f2\b0 \cf0 ,\
+{\listtext	24  	}user\cf5 :\cf0  user\
+{\listtext	25  	}\};\
+{\listtext	26  	}res.render(\cf6 'main'\cf0 , state);\
+{\listtext	27  	}\});\
+{\listtext	28  	}\
+{\listtext	29  	}module.exports \cf5 =\cf0  router;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\b \cf2 \
+\
+FILE: ./routes/api/index.js\
+\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls7\ilvl0\cf4 {\listtext	1  	}var
+\f2\b0 \cf0  express \cf5 =\cf0  require(\cf6 'express'\cf0 );\
+\ls7\ilvl0
+\f0\b \cf4 {\listtext	2  	}var
+\f2\b0 \cf0  router \cf5 =\cf0  express.Router();\
+\ls7\ilvl0
+\f0\b \cf4 {\listtext	3  	}var
+\f2\b0 \cf0  crypto \cf5 =\cf0  require(\cf6 'crypto'\cf0 );\
+\ls7\ilvl0
+\f0\b \cf4 {\listtext	4  	}var
+\f2\b0 \cf0  jwt \cf5 =\cf0  require(\cf6 'jsonwebtoken'\cf0 );\
+{\listtext	5  	}\
+\ls7\ilvl0
+\f0\b \cf4 {\listtext	6  	}var
+\f2\b0 \cf0  salt \cf5 =\cf0  require(\cf6 '../../server_config.json'\cf0 ).passhashsalt;\
+\ls7\ilvl0
+\f0\b \cf4 {\listtext	7  	}var
+\f2\b0 \cf0  jwtsecret \cf5 =\cf0  require(\cf6 '../../server_config.json'\cf0 ).serversecret;\
+\ls7\ilvl0
+\f0\b \cf4 {\listtext	8  	}var
+\f2\b0 \cf0  query \cf5 =\cf0  require(\cf6 '../../db.js'\cf0 );\
+{\listtext	9  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls7\ilvl0
+\f1\i \cf3 {\listtext	10  	}// Log user in\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	11  	}router.post(\cf6 '/login'\cf0 , (req, res, next) \cf5 =>\cf0  \{\
+{\listtext	12  	}
+\f0\b \cf4 var
+\f2\b0 \cf0  email \cf5 =\cf0  req.body.email;\
+{\listtext	13  	}\
+{\listtext	14  	}
+\f1\i \cf3 // Hash password\
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	15  	}
+\f0\b \cf4 var
+\f2\b0 \cf0  password \cf5 =\cf0  crypto.createHash(\cf6 'sha256'\cf0 )\
+{\listtext	16  	}				.update(req.body.password \cf5 +\cf0  salt)\
+{\listtext	17  	}				.digest(\cf6 'hex'\cf0 );\
+{\listtext	18  	}\
+{\listtext	19  	}
+\f1\i \cf3 // Perform query\
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	20  	}query(\cf6 "SELECT email, password, fname, lname FROM Person WHERE email=? AND password=?"\cf0 , [email, password])\
+{\listtext	21  	}.then((result) \cf5 =>\cf0  \{\
+{\listtext	22  	}	
+\f0\b \cf4 if
+\f2\b0 \cf0  (result.length \cf5 ==\cf0  \cf5 0\cf0 ) res.send(\cf6 'fail'\cf0 );\
+{\listtext	23  	}	
+\f0\b \cf4 else
+\f2\b0 \cf0  \{\
+{\listtext	24  	}		
+\f1\i \cf3 // Return a session token with user information\
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	25  	}		res.send(jwt.sign(\{ fname\cf5 :\cf0  result[\cf5 0\cf0 ].fname, lname\cf5 :\cf0  result[\cf5 0\cf0 ].lname, email\cf5 :\cf0  result[\cf5 0\cf0 ].email \}, \
+{\listtext	26  	}					jwtsecret, \
+{\listtext	27  	}					\{ expiresIn\cf5 :\cf0  \cf6 '7d'\cf0  \}));\
+{\listtext	28  	}\
+{\listtext	29  	}	\}\
+{\listtext	30  	}\});\
+{\listtext	31  	}\});\
+{\listtext	32  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls7\ilvl0
+\f1\i \cf3 {\listtext	33  	}// See content items\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	34  	}router.get(\cf6 '/item'\cf0 , (req, res, next) \cf5 =>\cf0  \{\
+{\listtext	35  	}
+\f0\b \cf4 var
+\f2\b0 \cf0  token;\
+{\listtext	36  	}\
+{\listtext	37  	}
+\f0\b \cf4 if
+\f2\b0 \cf0  (req.params.token \cf5 ==\cf0  
+\f0\b \cf4 null
+\f2\b0 \cf0 ) \{\
+{\listtext	38  	}token \cf5 =\cf0  
+\f0\b \cf4 null
+\f2\b0 \cf0 ;\
+{\listtext	39  	}\}\
+{\listtext	40  	}
+\f0\b \cf4 else
+\f2\b0 \cf0  token \cf5 =\cf0  req.params.token;\
+{\listtext	41  	}\
+{\listtext	42  	}
+\f1\i \cf3 // If not token, user is not authenticated, only so public posts\
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	43  	}
+\f0\b \cf4 if
+\f2\b0 \cf0  (token \cf5 ===\cf0  
+\f0\b \cf4 null
+\f2\b0 \cf0 ) \{\
+{\listtext	44  	}query(\cf6 "SELECT * FROM ContentItem WHERE is_pub=1 AND post_time > DATE_SUB(CURDATE(), INTERVAL 1 DAY)"\cf0 )\
+{\listtext	45  	}	.then((result) \cf5 =>\cf0  \{\
+{\listtext	46  	}		res.json(result);\
+{\listtext	47  	}	\});\
+{\listtext	48  	}\}\
+{\listtext	49  	}
+\f1\i \cf3 // Else ONLY show posts that the user is allowed to see\
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	50  	}
+\f0\b \cf4 else
+\f2\b0 \cf0  \{\
+{\listtext	51  	}
+\f1\i \cf3 // Implement this later\
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	52  	}\}\
+{\listtext	53  	}\});\
+{\listtext	54  	}\
+{\listtext	55  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls7\ilvl0
+\f1\i \cf3 {\listtext	56  	}// Create content items\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	57  	}router.post(\cf6 '/item'\cf0 , (req, res, next) \cf5 =>\cf0  \{\
+{\listtext	58  	}
+\f1\i \cf3 // Implement this later\
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	59  	}\});\
+{\listtext	60  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls7\ilvl0
+\f1\i \cf3 {\listtext	61  	}// Create a FriendGroup\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	62  	}router.post(\cf6 '/group'\cf0 , (req, res, next) \cf5 =>\cf0  \{\
+{\listtext	63  	}
+\f1\i \cf3 // Implement this later\
+\ls7\ilvl0
+\f2\i0 \cf0 {\listtext	64  	}\})\
+{\listtext	65  	}\
+{\listtext	66  	}module.exports \cf5 =\cf0  router;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\b \cf2 \
+\
+FILE: ./public/scripts/main.js\
+\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls8\ilvl0\cf4 {\listtext	1  	}var
+\f2\b0 \cf0  mode \cf5 =\cf0  \cf5 0\cf0 ;\
+{\listtext	2  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls8\ilvl0
+\f1\i \cf3 {\listtext	3  	}// Check mode \
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls8\ilvl0
+\f0\i0\b \cf4 {\listtext	4  	}if
+\f2\b0 \cf0 ($(\cf6 '#login-btn'\cf0 ).length) \{\
+{\listtext	5  	}mode \cf5 =\cf0  \cf5 0\cf0 ;\
+{\listtext	6  	}\}\
+\ls8\ilvl0
+\f0\b \cf4 {\listtext	7  	}else
+\f2\b0 \cf0  \{\
+{\listtext	8  	}mode \cf5 =\cf0  \cf5 1\cf0 ;\
+{\listtext	9  	}\}\
+{\listtext	10  	}\
+{\listtext	11  	}\
+\ls8\ilvl0
+\f0\b \cf4 {\listtext	12  	}if
+\f2\b0 \cf0  (mode \cf5 ==\cf0  \cf5 0\cf0 ) \{\
+{\listtext	13  	}
+\f1\i \cf3 // View all items the user can see, in this case, only public posts b/c\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls8\ilvl0
+\f2\i0 \cf0 {\listtext	14  	}
+\f1\i \cf3 // the user is not authenticated\
+\ls8\ilvl0
+\f2\i0 \cf0 {\listtext	15  	}$.get(\cf6 "/api/item"\cf0 , \{\}, 
+\f0\b \cf4 function
+\f2\b0 \cf0 (items) \{\
+{\listtext	16  	}
+\f0\b \cf4 for
+\f2\b0 \cf0  (
+\f0\b \cf4 var
+\f2\b0 \cf0  i \cf5 =\cf0  \cf5 0\cf0 ; i \cf5 <\cf0  items.length; \cf5 ++\cf0 i) \{\
+{\listtext	17  	}	$(\cf6 "#public-posts"\cf0 ).append($(`\cf5 <\cf0 div 
+\f0\b \cf4 class
+\f2\b0 \cf5 =\cf6 'contentitem'\cf5 >\cf0 \
+{\listtext	18  	}			\cf5 <\cf0 span 
+\f0\b \cf4 class
+\f2\b0 \cf5 =\cf6 'title'\cf5 >\cf0 $\{items[i][\cf6 "item_name"\cf0 ]\}\cf5 <\cf0 /span><br>\
+{\listtext	19  	}			\cf5 <\cf0 span 
+\f0\b \cf4 class
+\f2\b0 \cf5 =\cf6 'item-id'\cf5 >\cf0 Item ID\cf5 :\cf0  $\{items[i][\cf6 "item_id"\cf0 ]\}\cf5 <\cf0 /span><br>\
+{\listtext	20  	}			\cf5 <\cf0 span 
+\f0\b \cf4 class
+\f2\b0 \cf5 =\cf6 'post-time'\cf5 >\cf0 Posted\cf5 :\cf0  $\{items[i][\cf6 "post_time"\cf0 ]\}\cf5 <\cf0 /span><br>\
+{\listtext	21  	}			\cf5 <\cf0 a href\cf5 =\cf6 '$\{items[i]["file_path"]\}'\cf5 >\cf0 $\{items[i][\cf6 "file_path"\cf0 ]\}\cf5 <\cf0 /a><br>\
+{\listtext	22  	}			\cf5 <\cf0 span 
+\f0\b \cf4 class
+\f2\b0 \cf5 =\cf6 'post-email'\cf5 >\cf0 Posted By\cf5 :\cf0  $\{items[i][\cf6 "email_post"\cf0 ]\}\cf5 <\cf0 /span><br>\
+{\listtext	23  	}		\cf5 <\cf0 /div>`));\
+{\listtext	24  	}\}\
+{\listtext	25  	}\});\
+{\listtext	26  	}\
+{\listtext	27  	}
+\f1\i \cf3 // Log user in\
+\ls8\ilvl0
+\f2\i0 \cf0 {\listtext	28  	}$(\cf6 "#login-btn"\cf0 ).click(
+\f0\b \cf4 function
+\f2\b0 \cf0 () \{\
+{\listtext	29  	}$.post(\cf6 "/api/login"\cf0 , \{email\cf5 :\cf0  $(\cf6 "#email"\cf0 ).val(), password\cf5 :\cf0  $(\cf6 "#pass"\cf0 ).val()\}, \
+{\listtext	30  	}	
+\f0\b \cf4 function
+\f2\b0 \cf0 (res) \{\
+{\listtext	31  	}		
+\f0\b \cf4 if
+\f2\b0 \cf0  (res \cf5 ===\cf0  \cf6 "fail"\cf0 ) alert(\cf6 "Incorrect User Email and/or Password"\cf0 );\
+{\listtext	32  	}		
+\f0\b \cf4 else
+\f2\b0 \cf0  \{\
+{\listtext	33  	}			$.cookie(\cf6 "usertoken"\cf0 , res);\
+{\listtext	34  	}			location.reload();\
+{\listtext	35  	}		\}\
+{\listtext	36  	}	\})\
+{\listtext	37  	}\});\
+{\listtext	38  	}\}\
+{\listtext	39  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls8\ilvl0
+\f0\b \cf4 {\listtext	40  	}else
+\f2\b0 \cf0  \{\
+{\listtext	41  	}
+\f0\b \cf4 var
+\f2\b0 \cf0  token \cf5 =\cf0  $.cookie(\cf6 "usertoken"\cf0 );\
+{\listtext	42  	}
+\f1\i \cf3 // View all posts the user can see\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls8\ilvl0
+\f2\i0 \cf0 {\listtext	43  	}$.get(\cf6 "/api/item"\cf0 , \{ token\cf5 :\cf0  token \}, 
+\f0\b \cf4 function
+\f2\b0 \cf0 (items) \{\
+{\listtext	44  	}
+\f1\i \cf3 // Implement this later\
+\ls8\ilvl0
+\f2\i0 \cf0 {\listtext	45  	}\});\
+{\listtext	46  	}\
+{\listtext	47  	}
+\f1\i \cf3 // Create a new FriendGroup\
+\ls8\ilvl0
+\f2\i0 \cf0 {\listtext	48  	}$(\cf6 "#new-group"\cf0 ).click(
+\f0\b \cf4 function
+\f2\b0 \cf0 () \{\
+{\listtext	49  	}
+\f1\i \cf3 // Implement this later\
+\ls8\ilvl0
+\f2\i0 \cf0 {\listtext	50  	}\});\
+{\listtext	51  	}\
+{\listtext	52  	}
+\f1\i \cf3 // Show menu to create a new post\
+\ls8\ilvl0
+\f2\i0 \cf0 {\listtext	53  	}$(\cf6 "#show-post"\cf0 ).click(
+\f0\b \cf4 function
+\f2\b0 \cf0 () \{\
+{\listtext	54  	}
+\f1\i \cf3 // Implement this later\
+\ls8\ilvl0
+\f2\i0 \cf0 {\listtext	55  	}\});\
+{\listtext	56  	}\
+{\listtext	57  	}
+\f1\i \cf3 // Log user out of PriCoSha\
+\ls8\ilvl0
+\f2\i0 \cf0 {\listtext	58  	}$(\cf6 "#logout"\cf0 ).click(
+\f0\b \cf4 function
+\f2\b0 \cf0 () \{\
+{\listtext	59  	}$.cookie(\cf6 "usertoken"\cf0 , \cf5 0\cf0 );\
+{\listtext	60  	}location.reload();\
+{\listtext	61  	}\});\
+{\listtext	62  	}\}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\b \cf2 \
+\
+FILE: ./public/css/style.js\
+\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls9\ilvl0\cf4 {\listtext	1  	}body
+\f2\b0 \cf0  \{\
+\pard\tx940\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls9\ilvl1\cf0 {\listtext	\uc0\u8259 	}
+\f0\b \cf4 font-family
+\f2\b0 \cf5 :\cf0  
+\f0\b \cf4 sans-serif
+\f2\b0 \cf0 ;\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls9\ilvl0\cf0 {\listtext	2  	}
+\f0\b \cf4 padding
+\f2\b0 \cf5 :\cf0  \cf5 0\cf0  \cf7 !important\cf0 ;\
+{\listtext	3  	}
+\f0\b \cf4 margin
+\f2\b0 \cf5 :\cf0  \cf5 0\cf0  \cf7 !important\cf0 ;\
+{\listtext	4  	}\}\
+{\listtext	5  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls9\ilvl0
+\f0\b \cf4 {\listtext	6  	}h1
+\f2\b0 \cf5 ,\cf0  
+\f0\b \cf4 h2
+\f2\b0 \cf5 ,\cf0  
+\f0\b \cf4 h3
+\f2\b0 \cf5 ,\cf0  
+\f0\b \cf4 h4
+\f2\b0 \cf0  \{\
+{\listtext	7  	}
+\f0\b \cf4 padding
+\f2\b0 \cf5 :\cf0  \cf5 5px\cf0 ;\
+{\listtext	8  	}\}\
+{\listtext	9  	}\
+\ls9\ilvl0
+\f0\b \cf4 {\listtext	10  	}button
+\f2\b0 \cf0  \{\
+{\listtext	11  	}
+\f0\b \cf4 font-size
+\f2\b0 \cf0  \cf5 :18px\cf0 ;\
+{\listtext	12  	}
+\f0\b \cf4 background
+\f2\b0 \cf5 :\cf0  \cf5 #ddd\cf0 ;\
+{\listtext	13  	}
+\f0\b \cf4 border
+\f2\b0 \cf5 :\cf0  \cf5 0\cf0 ;\
+{\listtext	14  	}
+\f0\b \cf4 padding
+\f2\b0 \cf5 :\cf0  \cf5 5px\cf0  \cf5 10px\cf0 ;\
+{\listtext	15  	}
+\f0\b \cf4 margin
+\f2\b0 \cf5 :\cf0  \cf5 20px\cf0 ;\
+{\listtext	16  	}\}\
+{\listtext	17  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls9\ilvl0\cf8 {\listtext	18  	}#footer\cf0  \{\
+{\listtext	19  	}
+\f0\b \cf4 background
+\f2\b0 \cf5 :\cf0  \cf5 #ddd\cf0 ;\
+{\listtext	20  	}
+\f0\b \cf4 padding
+\f2\b0 \cf5 :\cf0  \cf5 10px\cf0 ;\
+{\listtext	21  	}
+\f0\b \cf4 font-size
+\f2\b0 \cf5 :\cf0  \cf5 12px\cf0 ;\
+{\listtext	22  	}
+\f0\b \cf4 margin
+\f2\b0 \cf5 :\cf0  \cf5 20px\cf0 ;\
+{\listtext	23  	}\}\
+{\listtext	24  	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls9\ilvl0
+\f0\b \cf8 {\listtext	25  	}.contentitem
+\f2\b0 \cf0  \{\
+{\listtext	26  	}
+\f0\b \cf4 padding
+\f2\b0 \cf5 :\cf0  \cf5 10px\cf0 ;\
+{\listtext	27  	}
+\f0\b \cf4 display
+\f2\b0 \cf5 :\cf0  
+\f0\b \cf4 inline
+\f2\b0 \cf5 -
+\f0\b \cf4 block
+\f2\b0 \cf0 ;\
+{\listtext	28  	}
+\f0\b \cf4 background
+\f2\b0 \cf5 :\cf0  \cf5 #eee\cf0 ;\
+{\listtext	29  	}
+\f0\b \cf4 margin
+\f2\b0 \cf5 :\cf0  \cf5 10px\cf0 ;\
+{\listtext	30  	}
+\f0\b \cf4 font-size
+\f2\b0 \cf5 :\cf0  \cf5 18px\cf0 ;\
+{\listtext	31  	}\}\
+{\listtext	32  	}\
+\ls9\ilvl0
+\f0\b \cf8 {\listtext	33  	}.title
+\f2\b0 \cf0  \{\
+{\listtext	34  	}
+\f0\b \cf4 font-weight
+\f2\b0 \cf5 :\cf0  
+\f0\b \cf4 bold
+\f2\b0 \cf0 ;\
+{\listtext	35  	}
+\f0\b \cf4 font-size
+\f2\b0 \cf5 :\cf0  \cf5 24px\cf0 ;\
+{\listtext	36  	}
+\f0\b \cf4 padding-bottom
+\f2\b0 \cf5 :\cf0  \cf5 5px\cf0 ;\
+{\listtext	37  	}\}\
+{\listtext	38  	}\
+\ls9\ilvl0
+\f0\b \cf8 {\listtext	39  	}.item-id
+\f2\b0 \cf0  \{\
+{\listtext	40  	}
+\f0\b \cf4 color
+\f2\b0 \cf5 :\cf0  \cf5 #888\cf0 ;\
+{\listtext	41  	}
+\f0\b \cf4 font-size
+\f2\b0 \cf5 :\cf0  \cf5 14px\cf0 ;\
+{\listtext	42  	}\}\
+{\listtext	43  	}\
+\ls9\ilvl0
+\f0\b \cf8 {\listtext	44  	}.post-time
+\f2\b0 \cf0  \{\
+{\listtext	45  	}
+\f0\b \cf4 color
+\f2\b0 \cf5 :\cf0  \cf5 #333\cf0 ;\
+{\listtext	46  	}
+\f0\b \cf4 font-size
+\f2\b0 \cf5 :\cf0  \cf5 16px\cf0 ;\
+{\listtext	47  	}
+\f0\b \cf4 padding-bottom
+\f2\b0 \cf5 :\cf0  \cf5 10px\cf0 ;\
+{\listtext	48  	}\}\
+}

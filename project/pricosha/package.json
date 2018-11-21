@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/theo-kim/databases#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "crypto-js": "^3.1.9-1",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
     "mysql": "github:mysqljs/mysql",
     "pug": "^2.0.3"
   }
