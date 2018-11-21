@@ -1,0 +1,24 @@
+{
+  "name": "pricosha",
+  "version": "0.0.1",
+  "description": "Project for Intro to Databases (CS-UY 3083)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theo-kim/databases.git"
+  },
+  "author": "Theodore Kim, JinZhao Su",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theo-kim/databases/issues"
+  },
+  "homepage": "https://github.com/theo-kim/databases#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql": "github:mysqljs/mysql",
+    "pug": "^2.0.3"
+  }
+}
