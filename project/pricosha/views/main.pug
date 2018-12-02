@@ -1,34 +1,133 @@
 extends layout
 
 block content
-	h1 PriCoSha
-	h2 Pivate Content Sharing
-
 	- if (loggedin)
-		h3 Hello #{user.fname}!
+		#logged
+			#header
+				#default-header.headers
+					h1 PriCoSha
+					div#profile
+						| Hi, #{user.fname}! 
+						img(src="/avatars/" + user.avatar + ".png", style="height: 30px;margin-right:0;background: #fff; padding: 5px; border-radius: 50%")
+						span.icon-badge.num-notif 1
+						div.drop-down
+							span#notifications 
+								span.badge.num-notif 1
+								| Notifications
+							span#account My Account
+							span#logout Logout
+				#new-post-header.headers(style="display: none;")
+					div(style="display:flex; flex-direction: row; align-items: center")
+						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
+						h1.nobar New Content Item
+					span.action#post-item POST
+				#tag-header.headers(style="display: none;")
+					div(style="display:flex; flex-direction: row; align-items: center")
+						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
+						h1.nobar TAGGED USERS
+				#rate-header.headers(style="display: none;")
+					div(style="display:flex; flex-direction: row; align-items: center")
+						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
+						h1.nobar CONTENT ITEMS RATINGS
+				#notification-header.headers(style="display: none;")
+					div(style="display:flex; flex-direction: row; align-items: center")
+						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
+						h1.nobar NOTIFICATIONS
+				#group-header.headers(style="display: none;")
+					div(style="display:flex; flex-direction: row; align-items: center")
+						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
+						h1.nobar FRIEND GROUPS
+				#invite-header.headers(style="display: none;")
+					div(style="display:flex; flex-direction: row; align-items: center")
+						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
+						h1.nobar INVITE FRIENDS TO YOUR GROUP
+			#posts
+				#action-btns
+					img#group(src="/icon/users-1.png", style="height: 35px;")
+					img#new-post(src="/icon/plus.png", style="height: 35px;")
 
-		h4 Public Posts
-		button#new-group Create a New Friend Group
-		button#show-post Post New Content
-		button#logout Logout
+				// Popup windows
+				// New Content Item window
+				.modal#post-modal.close
+					.modal-body
+						input#item-name(type="text", placeholder="Item Name")
+						br
+						span.input-label ITEM NAME
+						br
+						br
+						input#item-url(type="text", placeholder="Item URL")
+						br
+						span.input-label ITEM URL
+						br
+						.md-checkbox
+							input#item-pub(type='checkbox', checked='')
+							label(for='item-pub') MAKE YOUR ITEM PUBLIC
+				
+				// Tagging Window
+				.modal#tag-modal.close
+					.modal-body
+						div#people(style="margin-bottom:10px;")
+						input#person-name(type="text", placeholder="Search People")
+						br
+						span.input-label TAG A USER
+						br
+						div#people-result
+
+				// Ratings Window
+				.modal#rate-modal.close
+					.modal-body
+						div#rate(style="margin-bottom:10px;")
+
+				// Notification Window
+				.modal#notification-modal.close.top-right-anim
+					.modal-body#notification-body(style="display:flex; flex-direction:column; align-items:stretch; justify-content:center; height: calc(100% - 100px); overflow-y: auto")
+						div 
+							center 
+								b NO NOTIFICATIONS
+
+				// FriendGroup Window
+				.modal#group-modal.close
+					.modal-body
+						div#groups(style="margin-bottom:10px;")
+
 	- else
-		h3 Recent Public Posts
-		div#public-posts
-		h3 Please Login to the System
-		div
-			input#email(type="email")
-		div
-			input#pass(type="password")
-		div
-			button#login-btn Login
-	
-	br
-
-	hr
+		#unlogged
+			#left-panel
+				#title
+					h1 PriCoSha
+					span.subtitle Pivate, Secure Content Sharing with custom groups
+				#login
+					h2 LOGIN
+					div(style="display: flex; flex-direction: row; align-items: center")
+						div
+							input#email(type="email", placeholder="Email")
+							br
+							input#pass(type="password", placeholder="Password", style="margin-top: 20px")
+						img(src="/icon/success.png", style="height: 50px; margin-left: 20px; cursor: pointer")#login-btn 
+					br
+					span Are you a new user?&nbsp;
+						a(href="") Sign up!
+					
+			#right-panel
+				h3 Recent Public Posts
+				div#public-posts
 	#footer
 		div PriCoSha
 		div An academic project by Theodore Kim and JinZhao Su
 		div Source: https://github.com/theo-kim/databases/project/pricosha
-		div Version 0.0.1
+		div Icons made by 
+			a(href="https://smashicons.com/", title="Smashicons") Smashicons
+			|  from 
+			a(href="https://www.flaticon.com/", title="Flaticon") www.flaticon.com
+			|  is licensed by 
+			a(href="http://creativecommons.org/licenses/by/3.0/", title="Creative Commons BY 3.0", target="_blank") CC 3.0 BY
+		div
+			| Avatar Icons made by 
+			a(href='http://www.freepik.com/', title='Freepik') Freepik
+			|  from 
+			a(href='https://www.flaticon.com/', title='Flaticon') www.flaticon.com
+			|  is licensed by 
+			a(href='http://creativecommons.org/licenses/by/3.0/', title='Creative Commons BY 3.0', target='_blank') CC 3.0 BY
+
 
 	script(src="scripts/main.js")

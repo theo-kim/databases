@@ -7,7 +7,8 @@ const connection = mysql.createConnection({
 	port : "8889",
 	user: "root",
 	password : "root",
-	database : "pricosha"
+	database : "pricosha",
+	charset : 'utf8mb4'
 });
 
 // Define easy abstraction for making sql queries

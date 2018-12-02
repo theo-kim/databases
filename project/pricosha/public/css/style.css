@@ -2,48 +2,704 @@ body {
 	font-family: sans-serif;
 	padding: 0 !important;
 	margin: 0 !important;
+
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 h1, h2, h3, h4 {
 	padding: 5px;
 }
 
-button {
-	font-size :18px;
+a {
+	color: #7FDBFF;
+}
+
+#unlogged {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	flex-grow: 1;
+	background: #eee;
+}
+
+#unlogged #left-panel {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
 	background: #ddd;
-	border: 0;
+	align-items: stretch;
+	flex-shrink: 0;
+	flex-basis: 33%;
+}
+
+#unlogged #left-panel #title {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	flex-shrink: 0;
+	align-items: flex-start;
+	padding-left: 30px;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+}
+
+h1, h2  {
+	font-family: Helvetica, sans-serif;
+	position: relative;
+	display: inline-block !important;
+	font-size: 24px;
+	padding-left: -10px;
+	/*margin-left: 10px;*/
+}
+
+h2 {
+	font-size: 16px;
+	padding-left: 20px;
+}
+
+h1:not(.nobar):after {
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: -5px;
+	height: 5px;
+	background: #000;
+	left: 5px;
+	width: 50px;
+}
+
+h2:after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0px;
+	width: 5px;
+	background: #000;
+	left: 0px;
+	bottom: 0px;
+}
+
+#unlogged #left-panel span.subtitle {
+	font-size: 30px;
+}
+
+#unlogged #left-panel #login {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 2;
+	padding-left: 30px;
+	padding-top: 20px;
+}
+
+#unlogged #right-panel {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 3;
+	background: #ccc;
+	flex-shrink: 0;
+	padding: 10px;
+	overflow-y: auto;
+}
+
+#logged {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	flex-grow: 1;
+}
+
+#logged #header div[id*="-header"] {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-grow: 1;
+	flex-shrink: 0;
+	align-items: center;
+	padding: 30px 0px;
+	max-width: 900px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+#logged #header div[id*="-header"] img:first-child {
+	margin-right: 20px;
+}
+
+
+#logged #header {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	padding: 5px 40px;
+	background: #ddd;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	z-index: 6;
+	min-height: 60px;
+	max-height: 60px;
+}
+
+#logged #header .action {
+	font-size: 20px;
+	cursor: pointer;
+	border-bottom: 2px solid transparent;
+	transition: border-bottom-color 0.3s;
+	margin-right: 20px;
+}
+
+#logged #header .action:hover {
+	border-bottom-color: #000;
+}
+
+#logged #profile {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	font-size: 18px;
+	font-weight: bold;
+	cursor: pointer;
+	position: relative;
+}
+
+#logged #profile:hover .drop-down {
+	display: block;
+}
+
+#logged #profile .drop-down {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	z-index: 1;
+}
+
+#logged #profile .drop-down span {
+	background: #fff;
+	font-size: 16px;
+	font-weight: normal;
+	position: relative;
+	width: 100%;
+	display: block;
+	padding: 10px 20px;
+	border-bottom: 1px #eee solid;
+}
+
+#logged #profile span.icon-badge {
+	background: #cc0000;
+	color: #fff;
+	padding: 1px;
+	width: 15px;
+	height: 15px;
+	font-size: 12px;
+	text-align: center;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	margin-right: 5px;
+	position: absolute;
+	bottom: 0;
+	right: -10px
+}
+
+#logged #profile .drop-down span .badge {
+	background: #cc0000;
+	color: #fff;
+	padding: 1px;
+	width: 18px;
+	height: 18px;
+	text-align: center;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	margin-right: 5px;
+}
+
+#logged #profile .drop-down span:not(.badge):hover {
+	background: #eee;
+}
+
+#logged #profile img {
+	margin-left: 10px;
+}
+
+#logged #action-btns {
+	position: relative;
+	bottom: 20px;
+	right: 50px;
+	align-self: flex-end;
+	background: #eee;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	padding: 0px 20px;
+	border-radius: 30px;
+	position: fixed;
+}
+
+#logged #action-btns img {
+	padding: 10px;
+	cursor: pointer;
+}
+
+#logged #posts {
+	display: flex;
+	flex-grow: 1;
+	position: relative;
+	overflow-y: auto;
+	padding: 10px 20px;
+	flex-direction: column;
+	align-items: stretch;
+	background: #f8f8f8;
+}
+
+.person-search {
+	font-size: 18px; 
+	margin-bottom: 5px;
 	padding: 5px 10px;
-	margin: 20px;
+	cursor: pointer;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.person-search img {
+	display: none;
+}
+
+.person-search:hover {
+	background-color: #eee;
+}
+
+.person-search:hover img {
+	display: block;
+	width: 20px;
+	height: 20px;
+}
+
+.modal {
+	transform-origin: 95% 95%;
+	background: #fff;
+	transform: scale(0);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding-top: 70px;
+	display: none;
+	z-index: 5;
+}
+
+.modal:not(.close) {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.modal-body {
+	padding-top: 50px;
+	padding-bottom: 50px;
+	max-width: 800px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.modal.open { 
+	animation: modal-animation 0.3s forwards;
+	display: block;
+}
+
+.modal.top-right-anim {
+	transform-origin: 100% 0 !important;
+}
+
+.modal.close {
+	animation: close-animation 0.3s forwards;
+}
+
+.notification {
+	overflow: hidden;
+	font-size: 18px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	background: #e8e8e8;
+	border-radius: 5px;
+	padding: 15px;
+}
+
+.notification span[class*="-badge"],
+.person-badge {
+	display: inline-block;
+	background: #ccc;
+	padding: 5px 10px;
+	border-radius: 10px;
+	font-weight: bold;
+	position: relative;
+	cursor: default;
+}
+
+.person-badge.small {
+	font-size: 14px;
+	margin-right: 5px;
+}
+
+.person-badge.with-icon {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+}
+.person-badge.with-icon img {
+	margin-right: 5px;
+	background: #fff;
+	padding: 2px;
+	height: 20px;
+	border-radius: 50%;
+}
+
+div.badge-popup {
+	display: none;
+	position: absolute;
+	background: #555;
+	padding: 5px;
+	top: calc(100% + 8px);
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
+	border-radius: 5px;
+	z-index: 1;
+}
+
+div.badge-popup:after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: -13px;
+	left: 50%;
+	margin-left: -5px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent transparent #555 transparent;
+}
+
+.notification span[class*="-badge"]:hover div.badge-popup,
+.person-badge:hover div.badge-popup {
+	display: block;
+}
+
+.notification button {
+	display: inline-block;
+	margin-left: 10px;
+}
+
+.notification button:first-of-type {
+	background: #cc0000 !important;
+	color: #fff;
+}
+
+.notification button:last-of-type {
+	background: #4BB543 !important;
+	color: #fff;
+}
+
+@keyframes modal-animation {
+	from {
+		transform: scale(0);
+	}
+	to {
+		transform: scale(1);
+	}
+}
+
+@keyframes close-animation {
+	from {
+		transform: scale(1) translateY(0);
+	}
+	99% {
+		transform: scale(1) translateY(100%);
+	}
+	to {
+		transform: scale(0);
+	}
+}
+
+.close-modal {
+	cursor: pointer;
 }
 
 #footer {
-	background: #ddd;
-	padding: 10px;
+	background: #f8f8f8;
 	font-size: 12px;
-	margin: 20px;
+	padding: 5px;
+	text-align: center;
 }
 
+/* CONTENT ITEMS*/
+
 .contentitem {
-	padding: 10px;
+	padding: 20px;
 	display: inline-block;
-	background: #eee;
-	margin: 10px;
+	background: #fff;
+	margin: 10px auto;
 	font-size: 18px;
+	border-radius: 4px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	max-width: 860px;
+	width: calc(100% - 80px);
 }
 
 .title {
 	font-weight: bold;
-	font-size: 24px;
-	padding-bottom: 5px;
+	font-size: 28px;
+	margin-top: 25px;
+	margin-bottom: -5px;
+	display: inline-block;
+}
+
+.user-info {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	border-bottom: 1px #ddd solid;
+	padding: 0px 20px;
+	padding-bottom: 15px;
+	margin-left: -20px;
+	margin-right: -20px;
+}
+
+.profile-pic {
+	background: #ddd;
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+.group-pic {
+	background: #ddd;
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+.post-email {
+	font-size: 16px;
+	font-weight: bold;
+	display: inline-block;
+	background: #eee;
+	padding: 5px 10px;
+	border-radius: 15px;
+	color: #333;
 }
 
 .item-id {
 	color: #888;
 	font-size: 14px;
+	display: inline-block;
+	margin-bottom: 10px;
+	transform: translateY(-5px);
 }
 
 .post-time {
-	color: #333;
-	font-size: 16px;
+	color: #777;
+	font-size: 14px;
 	padding-bottom: 10px;
+}
+
+.footer {
+	text-align: right;
+	margin-top: 5px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.footer .emoji-btn {
+	display: inline-block;
+	position: relative;
+}
+
+.footer .emoji-btn:hover div {
+	display: block;
+}
+
+.footer .emoji-btn div {
+	display: none;
+	position: absolute;
+	right: 100%;
+	top: calc(-50% - 10px);
+	background: #f0f0f0;
+	padding: 10px;
+	text-align: center;
+	border-radius: 10px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	width: 100px;
+}
+.footer .emoji-btn div span {
+	cursor: pointer;
+	padding: 3px 5px; 
+	margin: 2px;
+	text-align: center;
+	display: inline-block;
+	width: 17px;
+	transition: transform 0.2s;
+}
+
+.footer .emoji-btn div span:hover {
+	transform: scale(1.2);
+}
+
+.footer .btn {
+	cursor: pointer;
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 8px 0px;
+	background: #eee;
+	border-radius: 18px;
+	height: 18px;
+	margin-right: 10px;
+}
+
+.footer .btn img {
+	border-radius: 18px;
+	height: 18px;
+	width: 18px;
+	padding: 0px 8px;
+}
+
+.footer .btn img+span {
+	margin-left: 0px;
+	margin-right: 15px;	
+	font-size: 14px;
+}
+
+.footer .btn:hover {
+	background: #ddd;
+}
+
+/* INPUTS */
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+	background: #eee;
+	border: none;
+	border-bottom: 2px solid #888;
+	font-size: 22px;
+	padding: 10px 6px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+	outline: none;
+	border-color: #000;
+}
+
+span.input-label {
+	font-size: 14px;
+	font-weight: bold;
+	margin-top: -15px;
+}
+
+button {
+	cursor: pointer;
+	transition: background-color 0.5s, color 0.5s;
+	color: #333;
+	font-size :18px;
+	background: #eee;
+	border: 0;
+	padding: 10px 20px;
+	display: block;
+	border-radius: 5px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+button:hover {
+	background-color: #333;
+	color: #ddd;
+}
+
+/* THIS CODE IS FROM HERE: https://codepen.io/hansmaad/pen/qaGrQL */
+
+.md-checkbox {
+  position: relative;
+  margin: 1em 0;
+  text-align: left;
+}
+.md-checkbox.md-checkbox-inline {
+  display: inline-block;
+}
+.md-checkbox label {
+  cursor: pointer;
+  display: inline;
+  line-height: 1.25em;
+  vertical-align: top;
+  clear: both;
+  padding-left: 1px;
+}
+.md-checkbox label:not(:empty) {
+  padding-left: 0.75em;
+}
+.md-checkbox label:before, .md-checkbox label:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.md-checkbox label:before {
+  width: 1.25em;
+  height: 1.25em;
+  background: #fff;
+  border: 2px solid rgba(0, 0, 0, 0.54);
+  border-radius: 0.125em;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.md-checkbox input[type="checkbox"] {
+  outline: 0;
+  visibility: hidden;
+  width: 1.25em;
+  margin: 0;
+  display: block;
+  float: left;
+  font-size: inherit;
+}
+.md-checkbox input[type="checkbox"]:checked + label:before {
+  background: #337ab7;
+  border: none;
+}
+.md-checkbox input[type="checkbox"]:checked + label:after {
+  transform: translate(0.25em, 0.33654em) rotate(-45deg);
+  width: 0.75em;
+  height: 0.375em;
+  border: 0.125em solid #fff;
+  border-top-style: none;
+  border-right-style: none;
+}
+.md-checkbox input[type="checkbox"]:disabled + label:before {
+  border-color: rgba(0, 0, 0, 0.26);
+}
+.md-checkbox input[type="checkbox"]:disabled:checked + label:before {
+  background: rgba(0, 0, 0, 0.26);
+}
+.md-checkbox label, .md-checkbox label:before, .md-checkbox label:after {
+  box-sizing: border-box;
 }
