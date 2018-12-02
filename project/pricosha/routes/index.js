@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
-var jwtsecret = require('../server_config.json').serversecret;
+var jwtsecret = process.env.SECRET;
 
 router.get('/', (req, res, next) => {
 	var usertoken, user;

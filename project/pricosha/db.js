@@ -1,13 +1,13 @@
 // Import mysql interface
 const mysql = require("mysql");
 
-// Create connection to MAMP server
+// Create connection to MySQL server
 const connection = mysql.createConnection({
-	host : "localhost",
-	port : "8889",
-	user: "root",
-	password : "root",
-	database : "pricosha",
+	host : process.env.DATABASEHOST,
+	port : process.env.DATABASEPORT,
+	user: process.env.DATABASEUSER,
+	password : process.env.DATABASEPASS,
+	database : process.env.DATABASE,
 	charset : 'utf8mb4'
 });
 

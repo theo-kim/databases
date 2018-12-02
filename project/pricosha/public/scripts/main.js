@@ -61,9 +61,11 @@ function contentitem (info, tags, rates, container) {
 				<div class='footer'>
 					<div class='btn'><img class='comment-btn' src='/icon/compose.png'></div>
 					<div class='btn tag-btn'><img src='/icon/pin.png'><span class='tagged'></span></div>
-					<div class='btn emoji-btn rate-btn'>
-							<img src='/icon/like-1.png'>
-							<span class='ratings'></span>
+					<div class='btn emoji-btn'>
+							<span class="rate-btn">
+								<img src='/icon/like-1.png'>
+								<span class='ratings'></span>
+							</span>
 							<div>
 								<span>😁</span><span>😂</span><span>😅</span>
 								<span>😍</span><span>😓</span><span>😜</span>
@@ -74,6 +76,7 @@ function contentitem (info, tags, rates, container) {
 			</div>`);
 
 	var emoji = div.find(".emoji-btn div span");
+	if (mode == 0) div.find(".footer").hide();
 	emoji.each(function(index) {
 		$(emoji[index]).data("item", info["item_id"]).click(() => {
 			var request = { emoji: $(emoji[index]).html(), token: token, item: $(emoji[index]).data("item") }
@@ -138,7 +141,7 @@ function contentitem (info, tags, rates, container) {
 			$("#tag-modal .modal-body #people").empty()
 			$("#tag-modal .modal-body #people").html("Tagged Users: ")
 			for (var i = 0; i < t.length; ++i)
-				$("#tag-modal .modal-body #people").append($(`<span class='person-badge small'>${t[i].fname} ${t[i].lname}</span>`))
+				$("#tag-modal .modal-body #people").append($(`<span class='person-badge small with-icon'><img src='/avatars/${t[i].avatar}.png'>${t[i].fname} ${t[i].lname}</span>`))
 		}
 
 		searchFunction = tagFunction;
@@ -168,7 +171,7 @@ if (mode == 0) {
 		var tags = response.tags
 		var ratings = response.rates
 		for (var i = 0; i < items.length; ++i) {
-			contentitem(items[i], tags[items[i]["item_id"]], ratings[items[i]["item_id"]], $("#posts"));
+			contentitem(items[i], tags[items[i]["item_id"]], ratings[items[i]["item_id"]], $("#public-posts"));
 		}
 	});
 
@@ -272,6 +275,62 @@ else {
 		}
 	})
 
+	// Get all groups that a person is a member of
+	$.get("/api/groups", { token: token }, function(response) {
+		var groups = response.groups;
+		var members = response.member;
+		console.log(groups)
+		$("#group-modal .modal-body #groups").empty();
+		for (var i = 0; i < groups.length; ++i) {
+			var g = $(`<div class='user-info' style='padding-top:20px; align-items: stretch; flex-direction: column'>
+							<div style="display:flex; flex-direction: row; justify-content: space-between; align-items: center">
+								<div style='display:flex; flex-direction: row; align-items: center'>
+								<img class='group-pic' src='/icon/users.png'>
+								<div>
+									<span class='post-email person-badge'>
+										${groups[i].fname} ${groups[i].lname}'s ${groups[i].fg_name}
+									</span><br>
+									<span class='post-time'>${groups[i].description}</span><br>
+								</div>
+								</div>
+								${(groups[i].owns) ? '<button>Invite Friend</button>' : ''}
+							</div>
+							<div class="members" style="margin-top: 10px;">Members: </div>
+						</div>`);
+			var key = groups[i]["fg_name"] + "," + groups[i]["owner_email"];
+			if (members[key])
+				for (var j = 0; j < members[key].length; ++j) 
+					g.find(".members").append(`<span class='person-badge small with-icon'><img src='/avatars/${members[key][j]["avatar"]}.png'>${members[key][j]["fname"]} ${members[key][j]["lname"]}</span>`)
+			$("#group-modal .modal-body #groups").append(g);
+			$("#share-item").append($(`<div class='user-info' style='padding-top:20px; align-items: stretch; flex-direction: column'>
+							<div style="display:flex; flex-direction: row; justify-content: space-between; align-items: center">
+								<div style='display:flex; flex-direction: row; align-items: center'>
+								<div>
+									<span class='post-email person-badge'>
+										${groups[i].fname} ${groups[i].lname}'s ${groups[i].fg_name}
+									</span><br>
+									<span class='post-time'>${groups[i].description}</span><br>
+								</div>
+								</div>
+								<div class="md-checkbox"><input data-key="${key}" class="group-share" id="shared-group-${key}" type="checkbox" /><label for="shared-group-${key}"></label></div>
+							</div>
+						</div>`))
+			g.find("button").click({ group: groups[i].fg_name }, function(event) {
+				searchFunction = inviteFunction;
+				activeGroup = event.data.group;
+
+				closeModal(() => {
+					$("#tag-modal").addClass("open").removeClass("close");
+					$("#default-header").hide();
+					$("#invite-header").show();
+					activeModal = $("#tag-modal");
+					activeHeader = $("#invite-header");
+					activePost = $(this).parent().parent().data("id");
+				});
+			});
+		}
+	});
+
 	// Open Friend Group window
 	$("#group").click(function() {
 		$("#group-modal").addClass("open").removeClass("close");
@@ -280,46 +339,7 @@ else {
 		activeModal = $("#group-modal");
 		activeHeader = $("#group-header");
 
-		$.get("/api/groups", { token: token }, function(response) {
-			var groups = response.groups;
-			var members = response.member;
-			$("#group-modal .modal-body #groups").empty();
-			for (var i = 0; i < groups.length; ++i) {
-				var g = $(`<div class='user-info' style='padding-top:20px; align-items: stretch; flex-direction: column'>
-								<div style="display:flex; flex-direction: row; justify-content: space-between; align-items: center">
-									<div style='display:flex; flex-direction: row; align-items: center'>
-									<img class='group-pic' src='/icon/users.png'>
-									<div>
-										<span class='post-email person-badge'>
-											${groups[i].fname} ${groups[i].lname}'s ${groups[i].fg_name}
-										</span><br>
-										<span class='post-time'>${groups[i].description}</span><br>
-									</div>
-									</div>
-									${(groups[i].owns) ? '<button>Invite Friend</button>' : ''}
-								</div>
-								<div class="members" style="margin-top: 10px;">Members: </div>
-							</div>`);
-				var key = groups[i]["fg_name"] + "," + groups[i]["owner_email"];
-				for (var j = 0; j < members[key].length; ++j) {
-					g.find(".members").append(`<span class='person-badge small with-icon'><img src='/avatars/${members[key][j]["avatar"]}.png'>${members[key][j]["fname"]} ${members[key][j]["lname"]}</span>`)
-				}
-				$("#group-modal .modal-body #groups").append(g)
-				g.find("button").click({ group: groups[i].fg_name }, function(event) {
-					searchFunction = inviteFunction;
-					activeGroup = event.data.group;
-
-					closeModal(() => {
-						$("#tag-modal").addClass("open").removeClass("close");
-						$("#default-header").hide();
-						$("#invite-header").show();
-						activeModal = $("#tag-modal");
-						activeHeader = $("#invite-header");
-						activePost = $(this).parent().parent().data("id");
-					});
-				});
-			}
-		});
+		$("#tag-modal .modal-body #people").empty()
 	});
 
 	// Show menu to create a new post
@@ -333,12 +353,19 @@ else {
 
 	// Actually post the new item
 	$("#post-item").click(function() {
+		var groups = [];
+		$(".group-share").each(function(index, element) {
+			if (element.checked)
+				groups.push($(element).attr("data-key"));
+		})
 		var request = {
 			token: token,
 			name: $("#item-name").val(),
 			url: $("#item-url").val(),
-			ispub: $("#item-pub").is(':checked')
+			ispub: $("#item-pub").is(':checked'),
+			share: groups.join(";;")
 		}
+		console.log(request)
 		$.post("/api/item", request, function(response) {
 			// Successful, reload the page
 			if (response == "success") closeModal(() => location.reload())
@@ -355,6 +382,27 @@ else {
 		activeHeader = $("#notification-header");
 	})
 
+	// Show New Group Window
+	$("#new-group-btn").click(function() {
+		closeModal(() => {
+			$("#new-group-modal").addClass("open").removeClass("close");
+			$("#default-header").hide();
+			$("#new-group-header").show();
+			activeModal = $("#new-group-modal");
+			activeHeader = $("#new-group-header");
+		})
+	});
+
+	// Button to actually create the nw group
+	$("#new-group").click(function() {
+		$.post('/api/group', {token: token, name: $("#new-group-name").val(), description: $("#new-group-desc").val()}, function(response) { 
+			if (response == "success") {
+				closeModal(() => location.reload());
+			}
+			else alert(response)
+		})
+	})
+
 	var timeout = null;
 	// Search for people on the website when typed into the search bar
 	$("#person-name").keyup(function() {
@@ -365,7 +413,8 @@ else {
 				$("#people-result").empty()
 				for (var i = 0; i < response.length; ++i) {
 					var entry = $(`<div class='person-search'>
-										${response[i].fname} ${response[i].lname}
+										<img src="/avatars/${response[i].avatar}.png">
+										<div><b>${response[i].fname} ${response[i].lname}</b><small>${response[i].email}</small><div>
 									</div>`);
 					entry.data("email", response[i].email);
 					$("#people-result").append(entry)
@@ -375,6 +424,16 @@ else {
 			});
 		}, 500);
 	})
+
+	// Allow users to share contentitems with their groups if not public
+	$("#item-pub").change(function() {
+		if (!this.checked) {
+			$("#share-item").show();
+		}
+		else {
+			$("#share-item").hide();
+		}
+	});
 
 	// Log user out of PriCoSha
 	$("#logout").click(function() {

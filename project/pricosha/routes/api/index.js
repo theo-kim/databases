@@ -6,8 +6,8 @@ var request = require('request');
 var validUrl = require('valid-url');
 var moment = require('moment');
 
-var salt = require('../../server_config.json').passhashsalt;
-var jwtsecret = require('../../server_config.json').serversecret;
+var salt = process.env.SALT;
+var jwtsecret = process.env.SECRET;
 var query = require('../../db.js');
 
 // Log user in
@@ -45,7 +45,7 @@ router.get('/user', (req, res, next) => {
 	if (fname != "") fname = "%" + fname + "%";
 	if (lname != "") lname = "%" + lname + "%";
 
-	query("SELECT fname, lname, email FROM Person WHERE fname LIKE ? OR lname LIKE ?", [fname, lname])
+	query("SELECT fname, lname, email, avatar FROM Person WHERE fname LIKE ? OR lname LIKE ?", [fname, lname])
 		.then((results) => {
 			res.send(results);
 		})
@@ -180,28 +180,54 @@ router.get('/item', (req, res, next) => {
 	jwt.verify(token, jwtsecret, function(error, user) {
 		// If not token, user is not authenticated, only so public posts
 		if (error) {
-			query("SELECT * FROM ContentItem WHERE is_pub=1 AND post_time > DATE_SUB(CURDATE(), INTERVAL 1 DAY)")
-				.then((result) => {
-					for (var i = 0; i < result.length; ++i) {
-						result[i].post_time = moment(result[i].post_time).format("MMMM d [at] h:mm A");
+			query(`SELECT c.*, Person.fname, Person.lname, Person.avatar, Person.email FROM ContentItem AS c JOIN Person ON Person.email = c.email_post WHERE is_pub=1 AND post_time > DATE_SUB(CURDATE(), INTERVAL 1 DAY)`)
+				.then((items) => {
+					for (var i = 0; i < items.length; ++i) {
+						items[i].post_time = moment(items[i].post_time).format("MMMM D [at] h:mm A");
 					}
-					res.json(result);
+					query(`SELECT * FROM Tag JOIN Person ON Person.email = Tag.email_tagged WHERE status = 1`)
+						.then((tagged) => {
+							tags = {}
+							for (var i = 0; i < tagged.length; ++i) {
+								if (tags[tagged[i]["item_id"]])
+									tags[tagged[i]["item_id"]].push(tagged[i])
+								else { 
+									tags[tagged[i]["item_id"]] = []
+									tags[tagged[i]["item_id"]].push(tagged[i])
+								}
+							}
+							query(`SELECT * FROM Rate NATURAL JOIN Person`)
+								.then((ratings) => {
+									rates = {}
+									for (var i = 0; i < ratings.length; ++i) {
+										ratings[i].rate_time = moment(ratings[i].rate_time).format("MMMM D [at] h:mm A");
+										if (rates[ratings[i]["item_id"]])
+											rates[ratings[i]["item_id"]].push(ratings[i])
+										else { 
+											rates[ratings[i]["item_id"]] = []
+											rates[ratings[i]["item_id"]].push(ratings[i])
+										}
+									}
+									var response = { tags, items, rates }
+									console.log(response)
+									res.send(response)
+								});
+						});
 				});
 		}
 		// Else ONLY show posts that the user is allowed to see
 		else {
 			// Get the posts
-			query(`SELECT *
-				   FROM ContentItem AS c 
-				   JOIN Person ON Person.email = c.email_post
-				   NATURAL LEFT JOIN Share
-				   NATURAL LEFT JOIN Friendgroup
-				   NATURAL LEFT JOIN Belong AS b
-				   WHERE (b.email = ? OR c.is_pub = true OR c.email_post = ?)
+			query(`SELECT c.*, Person.fname, Person.lname, Person.avatar, Person.email
+				   FROM ContentItem AS c JOIN Person ON Person.email = c.email_post 
+				   NATURAL LEFT JOIN Share 
+				   NATURAL LEFT JOIN Friendgroup 
+				   LEFT JOIN Belong AS b ON Friendgroup.owner_email = b.owner_email AND Friendgroup.fg_name = b.fg_name 
+				   WHERE (b.email = ? OR c.is_pub = true OR c.email_post = ?) 
 				   ORDER BY post_time DESC`, [ user.email, user.email ])
 				.then((items) => {
 					for (var i = 0; i < items.length; ++i)
-						items[i].post_time = moment(items[i].post_time).format("MMMM d [at] h:mm A");
+						items[i].post_time = moment(items[i].post_time).format("MMMM D [at] h:mm A");
 					// Get the tagged users
 					query(`SELECT * FROM Tag JOIN Person ON Person.email = Tag.email_tagged WHERE status = 1`)
 						.then((tagged) => {
@@ -218,7 +244,7 @@ router.get('/item', (req, res, next) => {
 								.then((ratings) => {
 									rates = {}
 									for (var i = 0; i < ratings.length; ++i) {
-										ratings[i].rate_time = moment(ratings[i].rate_time).format("MMMM d [at] h:mm A");
+										ratings[i].rate_time = moment(ratings[i].rate_time).format("MMMM D [at] h:mm A");
 										if (rates[ratings[i]["item_id"]])
 											rates[ratings[i]["item_id"]].push(ratings[i])
 										else { 
@@ -239,16 +265,17 @@ router.get('/item', (req, res, next) => {
 // Create content items
 router.post('/item', (req, res, next) => {
 	// Default values
-	var token = null, name = "", ispub = false, url = "";
+	var token = null, name = null, ispub = false, url = null, share = null;
 
 	// Decode request
 	token = (req.body.token !== undefined) ? req.body.token : null;
 	name = req.body.name;
 	url = req.body.url;
 	ispub = (req.body.ispub === "true") ? 1 : 0;
+	share = req.body.share.split(";;");
 
 	// Verify that all required fields were posted
-	if (token == null || name == null || url == null || ispub == null) {
+	if (token == null || name == "" || url == "" || ispub == null) {
 		res.send("Incomplete Request");
 	}
 	// Check if user is authenticated
@@ -267,8 +294,24 @@ router.post('/item', (req, res, next) => {
 							query("INSERT INTO ContentItem (email_post, file_path, item_name, is_pub) VALUES (?, ?, ?, ?)", 
 							[user.email, url, name, ispub])
 								.then(response => {
-									if (response.affectedRows > 0) res.send("success");
+									var id = response.insertId;
+									if (response.affectedRows > 0) {
+										if (share != null) {
+											var queryText = "INSERT INTO Share (owner_email, fg_name, item_id) VALUES ";
+											var input = [];
+											for (var i = 0; i < share.length; ++i) {
+												var entry = share[i].split(",");
+												queryText += " (?, ?, ?),";
+												input = input.concat([entry[1], entry[0], id])
+											}
+											queryText = queryText.substring(0, queryText.length - 1);
+											return query(queryText, input);
+										}
+									}
 									else res.send("Bad Query");
+								})
+								.then((response) => {
+									res.send("success");
 								});
 						}
 					})
@@ -342,6 +385,32 @@ router.get('/groups', (req, res, next) => {
 							res.send(response)
 						})
 				});
+		}
+	});
+})
+
+router.post('/group', (req, res, next) => {
+	// Default values
+	var token = null, name = null, description = null;
+
+	// Decode request
+	token = req.body.token;
+	name = req.body.name;
+	description = req.body.description;
+
+	jwt.verify(token, jwtsecret, function(error, user) {
+		// If not token, user is not authenticated, only so public posts
+		if (error) res.send("Unauthenticated user");
+		else {
+			email = user.email;
+			query("INSERT INTO Friendgroup (owner_email, fg_name, description) VALUES (?, ?, ?)", [email, name, description])
+				.then((response) => {
+					if (response.affectedRows > 0) res.send("success");
+					else res.send("failure")
+				}, (error) => {
+					if (error.code == "ER_DUP_ENTRY") res.send("That group already exists")
+					else res.send("Your fields are incorrect, check their lengths")
+				})
 		}
 	});
 })

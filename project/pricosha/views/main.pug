@@ -21,6 +21,11 @@ block content
 						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
 						h1.nobar New Content Item
 					span.action#post-item POST
+				#new-group-header.headers(style="display: none;")
+					div(style="display:flex; flex-direction: row; align-items: center")
+						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
+						h1.nobar New Friend Group
+					span.action#new-group SAVE
 				#tag-header.headers(style="display: none;")
 					div(style="display:flex; flex-direction: row; align-items: center")
 						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
@@ -62,6 +67,10 @@ block content
 						.md-checkbox
 							input#item-pub(type='checkbox', checked='')
 							label(for='item-pub') MAKE YOUR ITEM PUBLIC
+						#share-item(style="display:none;")
+							h3 Share your Content
+
+
 				
 				// Tagging Window
 				.modal#tag-modal.close
@@ -89,6 +98,20 @@ block content
 				.modal#group-modal.close
 					.modal-body
 						div#groups(style="margin-bottom:10px;")
+						button#new-group-btn NEW GROUP
+
+				// New FriendGroup Window
+				.modal#new-group-modal.close
+					.modal-body
+						input#new-group-name(type="text", placeholder="Group Name")
+						br
+						span.input-label GROUP NAME (20 Character Limit)
+						br
+						br
+						input#new-group-desc(type="text", placeholder="Group Description")
+						br
+						span.input-label GROUP DESCRIPTION (1000 Character Limit)
+						br
 
 	- else
 		#unlogged
@@ -110,7 +133,7 @@ block content
 					
 			#right-panel
 				h3 Recent Public Posts
-				div#public-posts
+				div#public-posts(style="display: flex; flex-direction: column;")
 	#footer
 		div PriCoSha
 		div An academic project by Theodore Kim and JinZhao Su

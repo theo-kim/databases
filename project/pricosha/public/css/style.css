@@ -263,26 +263,29 @@ h2:after {
 .person-search {
 	font-size: 18px; 
 	margin-bottom: 5px;
-	padding: 5px 10px;
+	padding: 10px 15px;
 	cursor: pointer;
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-start;
 	align-items: center;
 }
-
-.person-search img {
-	display: none;
+.person-search div {
+	display: flex;
+	flex-direction: column;
 }
 
 .person-search:hover {
 	background-color: #eee;
 }
 
-.person-search:hover img {
+.person-search img {
 	display: block;
-	width: 20px;
-	height: 20px;
+	width: 30px;
+	height: 30px;
+	padding: 7px;
+	background: #fff;
+	border-radius: 50%;
+	margin-right: 10px;
 }
 
 .modal {
@@ -297,6 +300,7 @@ h2:after {
 	padding-top: 70px;
 	display: none;
 	z-index: 5;
+	overflow-y: auto;
 }
 
 .modal:not(.close) {
@@ -534,6 +538,12 @@ div.badge-popup:after {
 
 .footer .emoji-btn:hover div {
 	display: block;
+}
+
+.footer .rate-btn {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
 }
 
 .footer .emoji-btn div {
