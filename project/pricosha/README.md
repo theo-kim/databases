@@ -24,6 +24,12 @@ SELECT fname, lname, email, avatar FROM Person WHERE email = ?
 
 **SCREENSHOTS:**
 
+*Selecting An Avatar at Registration*
+![Before](https://raw.githubusercontent.com/theo-kim/databases/master/project/screenshots/registration-2.png)
+
+*Avatar on a Content Item*
+![Before](https://raw.githubusercontent.com/theo-kim/databases/master/project/screenshots/avatar-1.png)
+
 ---
 
 #### Registration Page [![Generic badge](https://img.shields.io/badge/UI-Theodore-orange.svg)](https://shields.io/)
@@ -38,6 +44,11 @@ INSERT INTO Person (email, password, avatar, fname, lname) VALUE (?, ?, ?, ?, ?)
 **SOURCE CODE:** Backend source code for user registration in file `routes/api/index.js` on lines 51 - 80.
 
 **SCREENSHOTS:**
+
+*Before*
+![Before](https://raw.githubusercontent.com/theo-kim/databases/master/project/screenshots/registration-1.png)
+*After*
+![Before](https://raw.githubusercontent.com/theo-kim/databases/master/project/screenshots/registration-2.png)
 
 ---
 
@@ -88,6 +99,12 @@ NATURAL JOIN visible_posts
 
 **SCREENSHOTS**
 
+*Before (on clicking the search function)*
+![Before](https://raw.githubusercontent.com/theo-kim/databases/master/project/screenshots/search-1.png)
+
+*After (after entering the search query)*
+![Before](https://raw.githubusercontent.com/theo-kim/databases/master/project/screenshots/search-2.png)
+
 ---
 
 #### New Group [![Generic badge](https://img.shields.io/badge/UI-JinZhao-green.svg)](https://shields.io/)
@@ -102,6 +119,13 @@ INSERT INTO Friendgroup (owner_email, fg_name, description) VALUES (?, ?, ?)
 **SOURCE CODE:** Backend source code for user registration in file `routes/api/index.js` on lines 382 - 422.
 
 **SCREENSHOTS**
+
+*User Groups Before Adding New One*
+![Before](https://raw.githubusercontent.com/theo-kim/databases/master/project/screenshots/new-group-1.png)
+*New Group Window*
+![Before](https://raw.githubusercontent.com/theo-kim/databases/master/project/screenshots/new-group-2.png)
+*User Groups After Adding New One*
+![Before](https://raw.githubusercontent.com/theo-kim/databases/master/project/screenshots/new-group-3.png)
 
 ---
 
@@ -135,5 +159,8 @@ NATURAL JOIN visible_posts
 **SOURCE CODE:** Backend source code for user registration in file `routes/api/index.js` on lines 447 - 471 (posting new comments) and lines 246 - 296 (retrieving comments for comments).
 
 **SCREENSHOTS**
-
+*Comment Before*
+![Before](https://raw.githubusercontent.com/theo-kim/databases/master/project/screenshots/comment-1.png)
+*Comment After*
+![Before](https://raw.githubusercontent.com/theo-kim/databases/master/project/screenshots/comment-2.png)
 
