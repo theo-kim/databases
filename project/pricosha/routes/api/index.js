@@ -10,6 +10,21 @@ var salt = process.env.SALT;
 var jwtsecret = process.env.SECRET;
 var query = require('../../db.js');
 
+// Function to handle SQL error
+function sqlErrorHandler (error, res) {
+	switch (error.code) {
+		case "ER_DUP_ENTRY" :
+			res.send("DUP: That entry already exists");
+			break;
+		case "ER_DATA_TOO_LONG" :
+			res.send("LONG: Your Data was too long");
+			break;
+		default: 
+			res.send("ERR: MySQL Error")
+			break;
+	}
+}
+
 // Log user in
 router.post('/login', (req, res, next) => {
 	var email = req.body.email;
@@ -30,9 +45,39 @@ router.post('/login', (req, res, next) => {
 							{ expiresIn: '7d' }));
 
 			}
-		});
+		}, error => sqlErrorHandler(error, res));
 });
 
+// Create a new user
+router.post('/user', (req, res, next) => {
+	// Declare variables
+	var email, pass, avatar, fname, lname;
+
+	email = req.body.email;
+	// Hash Password to put into the database
+	if (req.body.password != null) {
+		pass = crypto.createHash('sha256')
+						.update(req.body.password + salt)
+						.digest('hex');
+	}
+	avatar = req.body.avatar;
+	fname = req.body.fname;
+	lname = req.body.lname;
+
+	// Check for missing fields
+	if (email != null && pass != null && fname != null && avatar != null && lname != null) {
+		res.send("INC: Incomplete Request");
+	}
+	else {
+		// Perform query to insert user
+		query("INSERT INTO Person (email, password, avatar, fname, lname) VALUE (?, ?, ?, ?, ?)", 
+			[email, pass, avatar, fname, lname])
+			.then(response => {
+				if (response.affectedRows > 0) res.send("success");
+				else res.send("error");
+			}, error => sqlErrorHandler(error, res))
+	}
+});
 
 // Search for users by first name
 router.get('/user', (req, res, next) => {
@@ -48,7 +93,7 @@ router.get('/user', (req, res, next) => {
 	query("SELECT fname, lname, email, avatar FROM Person WHERE fname LIKE ? OR lname LIKE ?", [fname, lname])
 		.then((results) => {
 			res.send(results);
-		})
+		}, error => sqlErrorHandler(error, res))
 })
 
 // Tag users in posts
@@ -79,16 +124,7 @@ router.post('/tag', (req, res, next) => {
 				.then((result) => {
 					if (result.affectedRows > 0) res.send("success");
 					else res.send("Taggee cannot see this post");
-				}, 
-				(error) => {
-					if (error.code == "ER_DUP_ENTRY") {
-						res.send("This user has already been tagged.");
-					}
-					else {
-						console.log(error)
-						res.send("Bad Query");
-					}
-				});
+				}, error => sqlErrorHandler(error, res));
 		}
 	});
 })
@@ -111,7 +147,7 @@ router.get('/tag', (req, res, next) => {
 				   WHERE email_tagged = ? AND status = 0`, [tagged])
 				.then((result) => {
 					res.send({success: result});
-				}, next);
+				}, error => sqlErrorHandler(error, res));
 		}
 	})
 })
@@ -138,11 +174,7 @@ router.put('/tag', (req, res, next) => {
 				.then((result) => {
 					if (result.affectedRows > 0) res.send("success");
 					else res.send("error");
-				}, 
-				(error) => {
-					if (error.code == "ER_DUP_ENTRY") res.send("Already Exists");
-					else res.send("Bad Query");
-				});
+				}, error => sqlErrorHandler(error, res));
 		}
 	});
 })
@@ -165,11 +197,7 @@ router.delete('/tag', (req, res, next) => {
 				.then((result) => {
 					if (result.affectedRows > 0) res.send("success");
 					else res.send("error");
-				}, 
-				(error) => {
-					console.log(error)
-					res.send("error");
-				});
+				}, error => sqlErrorHandler(error, res));
 		}
 	});
 })
@@ -185,78 +213,82 @@ router.get('/item', (req, res, next) => {
 					for (var i = 0; i < items.length; ++i) {
 						items[i].post_time = moment(items[i].post_time).format("MMMM D [at] h:mm A");
 					}
-					query(`SELECT * FROM Tag JOIN Person ON Person.email = Tag.email_tagged WHERE status = 1`)
-						.then((tagged) => {
-							tags = {}
-							for (var i = 0; i < tagged.length; ++i) {
-								if (tags[tagged[i]["item_id"]])
-									tags[tagged[i]["item_id"]].push(tagged[i])
-								else { 
-									tags[tagged[i]["item_id"]] = []
-									tags[tagged[i]["item_id"]].push(tagged[i])
-								}
-							}
-							query(`SELECT * FROM Rate NATURAL JOIN Person`)
-								.then((ratings) => {
-									rates = {}
-									for (var i = 0; i < ratings.length; ++i) {
-										ratings[i].rate_time = moment(ratings[i].rate_time).format("MMMM D [at] h:mm A");
-										if (rates[ratings[i]["item_id"]])
-											rates[ratings[i]["item_id"]].push(ratings[i])
-										else { 
-											rates[ratings[i]["item_id"]] = []
-											rates[ratings[i]["item_id"]].push(ratings[i])
-										}
-									}
-									var response = { tags, items, rates }
-									console.log(response)
-									res.send(response)
-								});
-						});
-				});
+					var response = { items }
+					res.send(response)
+				}, error => sqlErrorHandler(error, res));
 		}
 		// Else ONLY show posts that the user is allowed to see
 		else {
+			// Queries to get all the information about posts
+			var queries = [
+				// Define View for all posts (by id) that a user is able to see
+				query(`CREATE OR REPLACE VIEW visible_posts AS
+					   SELECT c.item_id
+					   FROM ContentItem AS c
+					   NATURAL LEFT JOIN Share 
+					   NATURAL LEFT JOIN Friendgroup 
+					   LEFT JOIN Belong AS b ON Friendgroup.owner_email = b.owner_email AND Friendgroup.fg_name = b.fg_name 
+					   WHERE (b.email = ? OR c.is_pub = true OR c.email_post = ?) 
+					   ORDER BY post_time DESC`, [ user.email, user.email ]),
+				// Get actual posts and their information
+				query(`SELECT c.*, Person.fname, Person.lname, Person.avatar, Person.email
+					   FROM ContentItem AS c
+					   JOIN Person ON Person.email = c.email_post 
+					   NATURAL JOIN visible_posts
+					   ORDER BY post_time DESC`),
+				// Get information about post tags
+				query(`SELECT Tag.*, Person.fname, Person.lname, Person.email, Person.avatar
+					   FROM Tag JOIN Person ON Person.email = Tag.email_tagged NATURAL JOIN visible_posts WHERE status = 1`),
+				// Get information about post rates
+				query(`SELECT Rate.*, Person.fname, Person.lname, Person.email, Person.avatar
+					   FROM Rate NATURAL JOIN Person NATURAL JOIN visible_posts`),
+				// Get information about comments
+				query(`SELECT Comments.*, Person.fname, Person.lname, Person.avatar, Person.email
+					   FROM Comments NATURAL JOIN Person NATURAL JOIN visible_posts`)
+			]
+
 			// Get the posts
-			query(`SELECT c.*, Person.fname, Person.lname, Person.avatar, Person.email
-				   FROM ContentItem AS c JOIN Person ON Person.email = c.email_post 
-				   NATURAL LEFT JOIN Share 
-				   NATURAL LEFT JOIN Friendgroup 
-				   LEFT JOIN Belong AS b ON Friendgroup.owner_email = b.owner_email AND Friendgroup.fg_name = b.fg_name 
-				   WHERE (b.email = ? OR c.is_pub = true OR c.email_post = ?) 
-				   ORDER BY post_time DESC`, [ user.email, user.email ])
-				.then((items) => {
+			Promise.all(queries)
+				.then(result => {
+					// Deconstruct SQL results
+					var view, items, tagged, ratings, comments;
+					[view, items, tagged, ratings, comments] = result;
+					
 					for (var i = 0; i < items.length; ++i)
 						items[i].post_time = moment(items[i].post_time).format("MMMM D [at] h:mm A");
-					// Get the tagged users
-					query(`SELECT * FROM Tag JOIN Person ON Person.email = Tag.email_tagged WHERE status = 1`)
-						.then((tagged) => {
-							tags = {}
-							for (var i = 0; i < tagged.length; ++i) {
-								if (tags[tagged[i]["item_id"]])
-									tags[tagged[i]["item_id"]].push(tagged[i])
-								else { 
-									tags[tagged[i]["item_id"]] = []
-									tags[tagged[i]["item_id"]].push(tagged[i])
-								}
-							}
-							query(`SELECT * FROM Rate NATURAL JOIN Person`)
-								.then((ratings) => {
-									rates = {}
-									for (var i = 0; i < ratings.length; ++i) {
-										ratings[i].rate_time = moment(ratings[i].rate_time).format("MMMM D [at] h:mm A");
-										if (rates[ratings[i]["item_id"]])
-											rates[ratings[i]["item_id"]].push(ratings[i])
-										else { 
-											rates[ratings[i]["item_id"]] = []
-											rates[ratings[i]["item_id"]].push(ratings[i])
-										}
-									}
-									var response = { tags, items, rates }
-									res.send(response)
-								});
-						});
-				})
+					
+					tags = {}
+					for (var i = 0; i < tagged.length; ++i) {
+						if (tags[tagged[i]["item_id"]])
+							tags[tagged[i]["item_id"]].push(tagged[i])
+						else { 
+							tags[tagged[i]["item_id"]] = []
+							tags[tagged[i]["item_id"]].push(tagged[i])
+						}
+					}
+					rates = {}
+					for (var i = 0; i < ratings.length; ++i) {
+						ratings[i].rate_time = moment(ratings[i].rate_time).format("MMMM D [at] h:mm A");
+						if (rates[ratings[i]["item_id"]])
+							rates[ratings[i]["item_id"]].push(ratings[i])
+						else { 
+							rates[ratings[i]["item_id"]] = []
+							rates[ratings[i]["item_id"]].push(ratings[i])
+						}
+					}			
+					comment = {}
+					for (var i = 0; i < comments.length; ++i) {
+						comments[i].comment_time = moment(comments[i].comment_time).format("MMMM D [at] h:mm A");
+						if (comment[comments[i]["item_id"]])
+							comment[comments[i]["item_id"]].push(comments[i])
+						else { 
+							comment[comments[i]["item_id"]] = []
+							comment[comments[i]["item_id"]].push(comments[i])
+						}
+					}
+					var response = { tags, items, rates, comment }
+					res.send(response);
+				}, error => sqlErrorHandler(error, res));
 		}
 	});
 });
@@ -276,7 +308,7 @@ router.post('/item', (req, res, next) => {
 
 	// Verify that all required fields were posted
 	if (token == null || name == "" || url == "" || ispub == null) {
-		res.send("Incomplete Request");
+		res.send("INC: Incomplete Request");
 	}
 	// Check if user is authenticated
 	else if (token != null) {
@@ -296,7 +328,7 @@ router.post('/item', (req, res, next) => {
 								.then(response => {
 									var id = response.insertId;
 									if (response.affectedRows > 0) {
-										if (share != null) {
+										if (!ispub && share != null) {
 											var queryText = "INSERT INTO Share (owner_email, fg_name, item_id) VALUES ";
 											var input = [];
 											for (var i = 0; i < share.length; ++i) {
@@ -309,10 +341,10 @@ router.post('/item', (req, res, next) => {
 										}
 									}
 									else res.send("Bad Query");
-								})
+								}, error => sqlErrorHandler(error, res))
 								.then((response) => {
 									res.send("success");
-								});
+								}, error => sqlErrorHandler(error, res));
 						}
 					})
 				}
@@ -342,7 +374,7 @@ router.post('/rate', (req, res, next) => {
 				.then((result) => {
 					if (result.affectedRows > 0) res.send("success");
 					else res.send("error");
-				});
+				}, error => sqlErrorHandler(error, res));
 		}
 	});
 })
@@ -407,13 +439,36 @@ router.post('/group', (req, res, next) => {
 				.then((response) => {
 					if (response.affectedRows > 0) res.send("success");
 					else res.send("failure")
-				}, (error) => {
-					if (error.code == "ER_DUP_ENTRY") res.send("That group already exists")
-					else res.send("Your fields are incorrect, check their lengths")
-				})
+				}, error => sqlErrorHandler(error, res))
 		}
 	});
 })
+
+// Add a comment to a ContentItem
+router.post('/post/comment', (req, res, next) => {
+	var token, comment, item, email;
+
+	token = req.body.token;
+	item = req.body.item;
+	comment = req.body.comment;
+
+	if (comment == "" || item == null) {
+		res.send("INC: Incomplete Request");
+	}
+	else {
+		jwt.verify(token, jwtsecret, function(error, user) {
+			if (error) res.send("Unauthenticated user")
+			else {
+				email = user.email;
+				query(`INSERT INTO Comments (item_id, comment, email) VALUES (?, ?, ?)`,
+					[item, comment, email])
+					.then((response) => {
+						if (response.affectedRows > 0) res.send("success")
+					}, error => sqlErrorHandler(error, res))
+			}
+		})
+	}
+});
 
 // Add a Person to a FriendGroup
 router.post('/group/user', (req, res, next) => {
@@ -435,12 +490,103 @@ router.post('/group/user', (req, res, next) => {
 				.then((results) => {
 					if (results.affectedRows > 0) res.send("success")
 					else res.send("User is already a member of your group")
-				}, (error) => {
-					if (error.code == "ER_DUP_ENTRY") res.send("User is already a member of your group")
-					else res.send("Bad Query")
-				});
+				}, error => sqlErrorHandler(error, res));
 		}
 	});
+});
+
+// Search for contentitem by Name that is visible to the user
+router.get('/search', (req, res, user) => {
+	// Default values
+	var token = null, searchPhrase = null;
+
+	// Decode request
+	token = req.query.token;
+	searchPhrase = req.query.searchPhrase;
+
+	if (searchPhrase == "" || searchPhrase == null) {
+		res.send("Incomplete Request")
+	}
+	else {
+		searchPhrase = "%" + searchPhrase + "%";
+		jwt.verify(token, jwtsecret, function(error, user) {
+			// If not token, user is not authenticated, only so public posts
+			if (error) res.send("Unauthenticated user");
+			else {
+				searcher = user.email;
+				// Queries to get all the information about posts
+				var queries = [
+					// Define View for all posts (by id) that a user is able to see
+					query(`CREATE OR REPLACE VIEW visible_posts AS
+						   SELECT c.item_id
+						   FROM ContentItem AS c
+						   NATURAL LEFT JOIN Share 
+						   NATURAL LEFT JOIN Friendgroup 
+						   LEFT JOIN Belong AS b ON Friendgroup.owner_email = b.owner_email AND Friendgroup.fg_name = b.fg_name 
+						   WHERE (b.email = ? OR c.is_pub = true OR c.email_post = ?) AND c.item_name LIKE ? 
+						   ORDER BY post_time DESC`, [ searcher, searcher, searchPhrase ]),
+					// Get actual posts and their information
+					query(`SELECT c.*, Person.fname, Person.lname, Person.avatar, Person.email
+						   FROM ContentItem AS c
+						   JOIN Person ON Person.email = c.email_post 
+						   NATURAL JOIN visible_posts
+						   ORDER BY post_time DESC`),
+					// Get information about post tags
+					query(`SELECT Tag.*, Person.fname, Person.lname, Person.email, Person.avatar
+						   FROM Tag JOIN Person ON Person.email = Tag.email_tagged NATURAL JOIN visible_posts WHERE status = 1`),
+					// Get information about post rates
+					query(`SELECT Rate.*, Person.fname, Person.lname, Person.email, Person.avatar
+						   FROM Rate NATURAL JOIN Person NATURAL JOIN visible_posts`),
+					// Get information about comments
+					query(`SELECT Comments.*, Person.fname, Person.lname, Person.avatar, Person.email
+						   FROM Comments NATURAL JOIN Person NATURAL JOIN visible_posts`)
+				]
+
+				// Get the posts
+				Promise.all(queries)
+					.then(result => {
+						// Deconstruct SQL results
+						var view, items, tagged, ratings, comments;
+						[view, items, tagged, ratings, comments] = result;
+						
+						for (var i = 0; i < items.length; ++i)
+							items[i].post_time = moment(items[i].post_time).format("MMMM D [at] h:mm A");
+						
+						tags = {}
+						for (var i = 0; i < tagged.length; ++i) {
+							if (tags[tagged[i]["item_id"]])
+								tags[tagged[i]["item_id"]].push(tagged[i])
+							else { 
+								tags[tagged[i]["item_id"]] = []
+								tags[tagged[i]["item_id"]].push(tagged[i])
+							}
+						}
+						rates = {}
+						for (var i = 0; i < ratings.length; ++i) {
+							ratings[i].rate_time = moment(ratings[i].rate_time).format("MMMM D [at] h:mm A");
+							if (rates[ratings[i]["item_id"]])
+								rates[ratings[i]["item_id"]].push(ratings[i])
+							else { 
+								rates[ratings[i]["item_id"]] = []
+								rates[ratings[i]["item_id"]].push(ratings[i])
+							}
+						}			
+						comment = {}
+						for (var i = 0; i < comments.length; ++i) {
+							comments[i].comment_time = moment(comments[i].comment_time).format("MMMM D [at] h:mm A");
+							if (comment[comments[i]["item_id"]])
+								comment[comments[i]["item_id"]].push(comments[i])
+							else { 
+								comment[comments[i]["item_id"]] = []
+								comment[comments[i]["item_id"]].push(comments[i])
+							}
+						}
+						var response = { tags, items, rates, comment }
+						res.send(response);
+					}, error => sqlErrorHandler(error, res));
+			}
+		})
+	}
 })
 
 module.exports = router;

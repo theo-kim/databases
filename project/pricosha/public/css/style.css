@@ -37,6 +37,7 @@ a {
 	align-items: stretch;
 	flex-shrink: 0;
 	flex-basis: 33%;
+	position: relative;
 }
 
 #unlogged #left-panel #title {
@@ -96,6 +97,60 @@ h2:after {
 	flex-grow: 2;
 	padding-left: 30px;
 	padding-top: 20px;
+}
+
+#unlogged #left-panel #signup {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: #fff;
+	padding-left: 30px;
+}
+
+#unlogged #left-panel #signup.closed {
+	display: none;
+}
+
+#unlogged #left-panel #signup.open {
+	animation: slideup 0.3s;
+}
+
+#unlogged #left-panel #signup b {
+	display: inline-block;
+	margin: 10px 0px;
+}
+
+#unlogged #left-panel #signup img {
+	height: 50px;
+	width: 50px;
+	background: #eee;
+	padding: 3px;
+	border-radius: 50%;
+	margin: 0px 2px;
+	cursor: pointer;
+	border: 2px solid transparent;
+}
+
+#unlogged #left-panel #signup img:hover {
+	border: 2px solid #aaa;
+}
+
+#unlogged #left-panel #signup img.selected {
+	border: 2px solid #00cc00;	
+}
+
+@keyframes slideup {
+	from {
+		transform: translateY(100%);
+	}
+	to {
+		transform: translateY(0);
+	}
 }
 
 #unlogged #right-panel {
@@ -232,23 +287,6 @@ h2:after {
 	margin-left: 10px;
 }
 
-#logged #action-btns {
-	position: relative;
-	bottom: 20px;
-	right: 50px;
-	align-self: flex-end;
-	background: #eee;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-	padding: 0px 20px;
-	border-radius: 30px;
-	position: fixed;
-}
-
-#logged #action-btns img {
-	padding: 10px;
-	cursor: pointer;
-}
-
 #logged #posts {
 	display: flex;
 	flex-grow: 1;
@@ -328,6 +366,14 @@ h2:after {
 	transform-origin: 100% 0 !important;
 }
 
+.modal.bottom-left-anim {
+	transform-origin: 5% 95% !important;
+}
+
+.modal.center-anim {
+	transform-origin: 50% 50% !important;
+}
+
 .modal.close {
 	animation: close-animation 0.3s forwards;
 }
@@ -341,6 +387,25 @@ h2:after {
 	background: #e8e8e8;
 	border-radius: 5px;
 	padding: 15px;
+}
+
+#comments {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.comment-row {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	align-items: stretch;
+
+	margin: 30px 10px;
+}
+.comment-row input {
+	flex-grow: 1;
+	margin-right: 10px;
 }
 
 .notification span[class*="-badge"],
@@ -442,11 +507,50 @@ div.badge-popup:after {
 	cursor: pointer;
 }
 
-#footer {
-	background: #f8f8f8;
+/* Footer */
+
+div#footer {
+	background: #ddd;
 	font-size: 12px;
 	padding: 5px;
+	box-shadow: 0 -1px 3px rgba(0,0,0,0.12), 0 -1px 2px rgba(0,0,0,0.24);
+	z-index: 2;
+	position: relative;
+}
+
+#action-btns {
+	max-width: 900px;
+	margin: 0 auto;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+img#new-post {
+	display: block;
+	position: absolute;
+	top: -35px;
+	z-index: 3;
+	right: 5px;
+	padding: 15px !important;
+	background: #000;
+	border-radius: 55px;
+	height: 30px;
+	width: 30px;
+
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+#footer #about-info {
+	height: 0px;
+	overflow: hidden;
 	text-align: center;
+}
+
+#action-btns img {
+	padding: 5px 10px;
+	cursor: pointer;
 }
 
 /* CONTENT ITEMS*/
@@ -461,6 +565,22 @@ div.badge-popup:after {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 	max-width: 860px;
 	width: calc(100% - 80px);
+}
+
+.commentitem {
+	padding: 20px;
+	display: inline-block;
+	margin: 10px auto;
+	font-size: 18px;
+	border-radius: 6px;
+	max-width: 860px;
+	width: calc(100% - 80px);
+	border: 1px #ddd solid;
+}
+
+.commentitem .profile-pic {
+	height: 50px;
+	width: 50px
 }
 
 .title {
@@ -615,13 +735,22 @@ input[type="password"] {
 	border-top-right-radius: 5px;
 }
 
-
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
 	outline: none;
 	border-color: #000;
 }
+
+input[type="text"]#search-input {
+	display: block;
+	background: none;
+	border-radius: 0px;
+	padding: 7px 15px;
+	flex-grow: 1;
+	margin-right: 80px;
+}
+
 
 span.input-label {
 	font-size: 14px;

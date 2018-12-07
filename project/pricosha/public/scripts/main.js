@@ -4,7 +4,9 @@ var activeModal = null;
 var activeHeader = null;
 var activePost = null;
 var searchFunction = null;
+var selectedAvatar = null;
 
+// Function to tag a given user
 var tagFunction = function() {
 	// Make the request to the server
 	var request = {
@@ -14,9 +16,12 @@ var tagFunction = function() {
 	}
 	$.post("/api/tag", request, (response) => {
 		if (response == "success") closeModal(() => location.reload())
+		else if (response.includes("DUP")) alert("That user is already tagged to this post!")
 		else alert(response)
 	})
 };
+
+// Function to invite a user to your group
 var inviteFunction = function() {
 	// Make the request to the server
 	var request = {
@@ -26,6 +31,7 @@ var inviteFunction = function() {
 	}
 	$.post("/api/group/user", request, (response) => {
 		if (response == "success") closeModal(() => location.reload())
+		else if (response.includes("DUP")) alert("That user already belongs to your group.")
 		else alert(response)
 	})
 };
@@ -38,7 +44,7 @@ var extensions = {
 
 // Function definitions
 // function to create a contentitem
-function contentitem (info, tags, rates, container) {
+function contentitem (info, tags, rates, comments, container) {
 	var type = info["file_path"].slice((info["file_path"].lastIndexOf(".") - 1 >>> 0) + 2);
 	if (type !== "") type = extensions[type];
 	var div = $(`<div class='contentitem'>
@@ -59,7 +65,7 @@ function contentitem (info, tags, rates, container) {
 				<span class='item-id'>Item ID: ${info["item_id"]}</span><br>
 				<a href='${info["file_path"]}'>${info["file_path"]}</a><br>
 				<div class='footer'>
-					<div class='btn'><img class='comment-btn' src='/icon/compose.png'></div>
+					<div class='btn comment-btn'><img src='/icon/compose.png'><span class='comments'></span></div>
 					<div class='btn tag-btn'><img src='/icon/pin.png'><span class='tagged'></span></div>
 					<div class='btn emoji-btn'>
 							<span class="rate-btn">
@@ -87,20 +93,52 @@ function contentitem (info, tags, rates, container) {
 	});
 
 	div.data("id", info["item_id"]);
-	if (tags) {
+	if (tags)
 		div.find(".tagged").html(`${tags.length}`)
-	}
 	else div.find(".tagged").remove()
-	if (rates) {
+	if (rates)
 		div.find(".ratings").html(`${rates.length}`)
-		// for (var i = 0; i < rates.length; ++i)
-		// 	div.find(".ratings").append($(`<span>${rates[i].emoji}</span>`))
-	}
 	else div.find(".ratings").remove()
+	if (comments)
+		div.find(".comments").html(`${comments.length}`)
+	else div.find(".comments").remove()
 
 	container.append(div);
 
 	// Individual contentitem actions
+
+	// Show and add a comment to a post
+	div.find(".comment-btn").click({ comments: comments, item: info["item_id"] }, function(event) {
+		activePost = event.data.item;
+		var c = event.data.comments;
+
+		$("#comments").empty();
+		if (c) {
+			for (var i = 0; i < c.length; ++i) {
+				var d = $(` <div class='commentitem'>
+							<div class='user-info'>
+								<img class='profile-pic' src='/avatars/${c[i]["avatar"]}.png'>
+								<div>
+									<span class='post-email person-badge'>
+										${c[i]["fname"]} ${c[i]["lname"]}
+										<div class='badge-popup'>
+											${c[i]["email"]}
+										</div>
+									</span><br>
+									<span class='post-time'>Commented ${c[i]["comment_time"]}</span><br>
+								</div>
+							</div>
+							<span style='display:inline-block;padding-top:20px'>${c[i]["comment"]}</span><br>
+							</div>`);
+				$("#comments").append(d)
+			}
+		}
+		$("#comment-modal").addClass("open").removeClass("close");
+		$("#default-header").hide();
+		$("#comment-header").show();
+		activeModal = $("#comment-modal");
+		activeHeader = $("#comment-header");
+	})
 
 	// Show ratings
 	div.find(".rate-btn").click({ rates: rates }, function(event) {
@@ -163,6 +201,7 @@ else {
 	mode = 1;
 }
 
+// If User is not authenticated
 if (mode == 0) {
 	// View all items the user can see, in this case, only public posts b/c
 	// the user is not authenticated
@@ -171,7 +210,7 @@ if (mode == 0) {
 		var tags = response.tags
 		var ratings = response.rates
 		for (var i = 0; i < items.length; ++i) {
-			contentitem(items[i], tags[items[i]["item_id"]], ratings[items[i]["item_id"]], $("#public-posts"));
+			contentitem(items[i], null, null, null, $("#public-posts"));
 		}
 	});
 
@@ -186,6 +225,53 @@ if (mode == 0) {
 				}
 			})
 	});
+
+	// Allow user to see registration page
+	$("#signup-link").click(function() {
+		$("#signup").removeClass("closed").addClass("open");
+	})
+
+	// Select an avatar for the user
+	$("#unlogged #left-panel #signup img").not("#signup-btn").each((i, e) => {
+		$(e).click(function() {
+			if (selectedAvatar)
+				selectedAvatar.removeClass("selected");
+			selectedAvatar = $(e);
+			selectedAvatar.addClass("selected");
+		})
+	});
+
+	// Actually signup the new user
+	$("#signup-btn").click(function() {
+		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    	// Check for a valid email address
+    	if (re.test(String($("#signup-email").val()).toLowerCase())) {
+    		var request = {
+				email: $("#signup-email").val(), 
+				password: $("#signup-pass").val(), 
+				avatar: selectedAvatar == null ? "boy-1" : selectedAvatar.attr("data-name"),
+				fname: $("#signup-fname").val(),
+				lname: $("#signup-lname").val(),
+			}
+			$.post("/api/user", request, function(response) {
+				console.log(response)
+				if (response == "success") {
+					alert("Yay! You've successfully made your account. Now log in.")
+					location.reload();
+				}
+				else if (response.includes("DUP")) {
+					alert("A user already exists with that email!")
+				}
+				else if (response.includes("INC")) {
+					alert("Please fill out all fields of the form")
+				}
+				else alert("Unknown error...")
+			});
+    	}
+    	else {
+    		alert("Please enter a valid email address.")
+    	}
+	})
 }
 // If the user is authenticated
 else {
@@ -195,8 +281,9 @@ else {
 		var items = response.items
 		var tags = response.tags
 		var ratings = response.rates
+		var comments = response.comment
 		for (var i = 0; i < items.length; ++i) {
-			contentitem(items[i], tags[items[i]["item_id"]], ratings[items[i]["item_id"]], $("#posts"));
+			contentitem(items[i], tags[items[i]["item_id"]], ratings[items[i]["item_id"]], comments[items[i]["item_id"]], $("#posts"));
 		}	
 	});
 
@@ -342,6 +429,43 @@ else {
 		$("#tag-modal .modal-body #people").empty()
 	});
 
+	// Show search bar
+	$("img#search-btn").click(function() {
+		$("#group").hide();
+		$(".new-group-btn").hide();
+		$("#search-btn").hide();
+		$("#search-close").show();
+		$("#search-input").show();
+	});
+
+	// Close search bar
+	$("#search-close").click(function () {
+		$("#group").show();
+		$("#search-btn").show();
+		$("#search-close").hide();
+		$("#search-input").hide();
+		location.reload();
+	});
+
+	var searchTimeout = null;
+	// Search for people on the website when typed into the search bar
+	$("#search-input").keyup(function() {
+		clearTimeout(searchTimeout);
+		searchTimeout = setTimeout(function() {
+			// Search for users on the API
+			$.get("/api/search", { searchPhrase: $("#search-input").val(), token: token }, function(response) {
+				$("#posts").empty()
+				var items = response.items
+				var tags = response.tags
+				var ratings = response.rates
+				var comments = response.comment
+				for (var i = 0; i < items.length; ++i) {
+					contentitem(items[i], tags[items[i]["item_id"]], ratings[items[i]["item_id"]], comments[items[i]["item_id"]], $("#posts"));
+				}
+			});
+		}, 500);
+	})
+
 	// Show menu to create a new post
 	$("#new-post").click(function() {
 		$("#post-modal").addClass("open").removeClass("close");
@@ -365,13 +489,28 @@ else {
 			ispub: $("#item-pub").is(':checked'),
 			share: groups.join(";;")
 		}
-		console.log(request)
 		$.post("/api/item", request, function(response) {
 			// Successful, reload the page
 			if (response == "success") closeModal(() => location.reload())
-			else alert(response);
+			else if (response.includes("INC")) alert("Please fill out all the fields!");
+			else alert(response)
 		});
 	});
+
+	// Actually post a comment to an item
+	$("#post-comment").click(function() {
+		var request = {
+			item: activePost,
+			token: token,
+			comment: $("#new-comment").val()
+		}
+		$.post("/api/post/comment", request, function(response) {
+			if (response == "success") closeModal(() => location.reload())
+			else if (response.includes("INC")) alert("Please fill out all the fields!");
+			else if (response.includes("LONG")) alert("Please limit your comment to 140 characters");
+			else alert(response)
+		})
+	})
 
 	// Show Notifications Window
 	$("#notifications").click(function() {
@@ -383,14 +522,24 @@ else {
 	})
 
 	// Show New Group Window
-	$("#new-group-btn").click(function() {
-		closeModal(() => {
-			$("#new-group-modal").addClass("open").removeClass("close");
-			$("#default-header").hide();
-			$("#new-group-header").show();
-			activeModal = $("#new-group-modal");
-			activeHeader = $("#new-group-header");
-		})
+	$(".new-group-btn").each((i, e) => {
+		$(e).click(function() {
+			if (activeModal != null) 
+				closeModal(() => {
+					$("#new-group-modal").addClass("open").removeClass("close");
+					$("#default-header").hide();
+					$("#new-group-header").show();
+					activeModal = $("#new-group-modal");
+					activeHeader = $("#new-group-header");
+				})
+			else {
+				$("#new-group-modal").addClass("open").removeClass("close");
+				$("#default-header").hide();
+				$("#new-group-header").show();
+				activeModal = $("#new-group-modal");
+				activeHeader = $("#new-group-header");
+			}
+		});
 	});
 
 	// Button to actually create the nw group
@@ -399,6 +548,8 @@ else {
 			if (response == "success") {
 				closeModal(() => location.reload());
 			}
+			else if (response.includes("DUP")) alert("You already own a group with that name");
+			else if (response.includes("LONG")) alert("Your group name must be below 20 characters.");
 			else alert(response)
 		})
 	})
@@ -435,6 +586,15 @@ else {
 		}
 	});
 
+	// Button to open account window
+	$("#account").click(function () {
+		$("#account-modal").addClass("open").removeClass("close");
+		$("#default-header").hide();
+		$("#account-header").show();
+		activeModal = $("#account-modal");
+		activeHeader = $("#account-header");
+	})
+
 	// Log user out of PriCoSha
 	$("#logout").click(function() {
 		$.cookie("usertoken", 0);
@@ -443,6 +603,7 @@ else {
 }
 
 // General UI button assignments
+// Button to close the currently openned window
 function closeModal(callback) {
 	if (callback == null || typeof callback != "function") callback = function() {}
 	activeModal.addClass("close");

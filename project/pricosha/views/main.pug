@@ -2,6 +2,7 @@ extends layout
 
 block content
 	- if (loggedin)
+		- // What the user sees if they are logged in	
 		#logged
 			#header
 				#default-header.headers
@@ -16,6 +17,8 @@ block content
 								| Notifications
 							span#account My Account
 							span#logout Logout
+				
+				// Headers for the popup windows (Modals)
 				#new-post-header.headers(style="display: none;")
 					div(style="display:flex; flex-direction: row; align-items: center")
 						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
@@ -46,79 +49,107 @@ block content
 					div(style="display:flex; flex-direction: row; align-items: center")
 						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
 						h1.nobar INVITE FRIENDS TO YOUR GROUP
+				#comment-header.headers(style="display: none;")
+					div(style="display:flex; flex-direction: row; align-items: center")
+						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
+						h1.nobar COMMENTS
+				#account-header.headers(style="display: none;")
+					div(style="display:flex; flex-direction: row; align-items: center")
+						img.close-modal(src="/icon/material-close.png", style="height: 35px; width: 35px")
+						h1.nobar MY ACCOUNT
+					span.action#new-group SAVE
+				// END HEADERS
+
+			// Div to hold posts
 			#posts
-				#action-btns
-					img#group(src="/icon/users-1.png", style="height: 35px;")
-					img#new-post(src="/icon/plus.png", style="height: 35px;")
+			// Popup windows
+			// New Content Item window
+			.modal#post-modal.close
+				.modal-body
+					input#item-name(type="text", placeholder="Item Name")
+					br
+					span.input-label ITEM NAME
+					br
+					br
+					input#item-url(type="text", placeholder="Item URL")
+					br
+					span.input-label ITEM URL
+					br
+					.md-checkbox
+						input#item-pub(type='checkbox', checked='')
+						label(for='item-pub') MAKE YOUR ITEM PUBLIC
+					#share-item(style="display:none;")
+						h3 Share your Content
 
-				// Popup windows
-				// New Content Item window
-				.modal#post-modal.close
-					.modal-body
-						input#item-name(type="text", placeholder="Item Name")
-						br
-						span.input-label ITEM NAME
-						br
-						br
-						input#item-url(type="text", placeholder="Item URL")
-						br
-						span.input-label ITEM URL
-						br
-						.md-checkbox
-							input#item-pub(type='checkbox', checked='')
-							label(for='item-pub') MAKE YOUR ITEM PUBLIC
-						#share-item(style="display:none;")
-							h3 Share your Content
+			// POPUP WINDOWS:
+			// Tagging Window
+			.modal#tag-modal.center-anim.close
+				.modal-body
+					div#people(style="margin-bottom:10px;")
+					input#person-name(type="text", placeholder="Search People")
+					br
+					span.input-label FIND A USER
+					br
+					div#people-result
 
+			// Ratings Window
+			.modal#rate-modal.center-anim.close
+				.modal-body
+					div#rate(style="margin-bottom:10px;")
 
-				
-				// Tagging Window
-				.modal#tag-modal.close
-					.modal-body
-						div#people(style="margin-bottom:10px;")
-						input#person-name(type="text", placeholder="Search People")
-						br
-						span.input-label TAG A USER
-						br
-						div#people-result
+			// Notification Window
+			.modal#notification-modal.close.top-right-anim
+				.modal-body#notification-body(style="display:flex; flex-direction:column; align-items:stretch; justify-content:center; height: calc(100% - 100px); overflow-y: auto")
+					div 
+						center 
+							b NO NOTIFICATIONS
 
-				// Ratings Window
-				.modal#rate-modal.close
-					.modal-body
-						div#rate(style="margin-bottom:10px;")
+			// FriendGroup Window
+			.modal#group-modal.bottom-left-anim.close
+				.modal-body
+					div#groups(style="margin-bottom:10px;")
+					button.new-group-btn NEW GROUP
 
-				// Notification Window
-				.modal#notification-modal.close.top-right-anim
-					.modal-body#notification-body(style="display:flex; flex-direction:column; align-items:stretch; justify-content:center; height: calc(100% - 100px); overflow-y: auto")
-						div 
-							center 
-								b NO NOTIFICATIONS
+			// New FriendGroup Window
+			.modal#new-group-modal.center-anim.close
+				.modal-body
+					input#new-group-name(type="text", placeholder="Group Name")
+					br
+					span.input-label GROUP NAME (20 Character Limit)
+					br
+					br
+					input#new-group-desc(type="text", placeholder="Group Description")
+					br
+					span.input-label GROUP DESCRIPTION (1000 Character Limit)
+					
+			// New / View Comment Window
+			.modal#comment-modal.center-anim.close
+				.modal-body
+					div#comments(style="margin-bottom:10px;")
+					div.comment-row
+						input#new-comment(type="text", placeholder="Your Comment")
+						button#post-comment POST COMMENT
 
-				// FriendGroup Window
-				.modal#group-modal.close
-					.modal-body
-						div#groups(style="margin-bottom:10px;")
-						button#new-group-btn NEW GROUP
-
-				// New FriendGroup Window
-				.modal#new-group-modal.close
-					.modal-body
-						input#new-group-name(type="text", placeholder="Group Name")
+			// Account Window
+			.modal#account-modal.top-right-anim.close
+				.modal-body
+					.user-info
+						img.profile-pic(src='/avatars/' + user.avatar + '.png')
+						div
+							span.post-email.person-badge #{user.fname} #{user.lname}
+								.badge-popup #{user.email}
 						br
-						span.input-label GROUP NAME (20 Character Limit)
-						br
-						br
-						input#new-group-desc(type="text", placeholder="Group Description")
-						br
-						span.input-label GROUP DESCRIPTION (1000 Character Limit)
-						br
+					
 
 	- else
+		// What the user sees if they are unlogged
 		#unlogged
 			#left-panel
+				// Title of website
 				#title
 					h1 PriCoSha
 					span.subtitle Pivate, Secure Content Sharing with custom groups
+				// Login section
 				#login
 					h2 LOGIN
 					div(style="display: flex; flex-direction: row; align-items: center")
@@ -128,29 +159,69 @@ block content
 							input#pass(type="password", placeholder="Password", style="margin-top: 20px")
 						img(src="/icon/success.png", style="height: 50px; margin-left: 20px; cursor: pointer")#login-btn 
 					br
+					// Allow user to create account
 					span Are you a new user?&nbsp;
-						a(href="") Sign up!
-					
+						a#signup-link(href="#") Sign up!
+				- // Signup section
+				#signup.closed
+					h2 SIGNUP
+					span Enter your email and a password to join PriCoSha!
+					br
+					div(style="display: flex; flex-direction: row; align-items: center")
+						- // Sign Up Form
+						div
+							input#signup-email(type="email", placeholder="Email")
+							br
+							input#signup-pass(type="password", placeholder="Password", style="margin-top: 20px")
+							br
+							input#signup-fname(type="text", placeholder="First Name", style="margin-top: 20px")
+							br
+							input#signup-lname(type="text", placeholder="Last Name", style="margin-top: 20px")
+							br
+							b Choose Your Avatar
+							div
+								img(src="/avatars/boy-1.png", data-name="boy-1")
+								img(src="/avatars/boy-2.png", data-name="boy-2")
+								img(src="/avatars/boy-3.png", data-name="boy-3")
+							div
+								img(src="/avatars/girl-1.png", data-name="girl-1")
+								img(src="/avatars/girl-2.png", data-name="girl-2")
+								img(src="/avatars/girl-3.png", data-name="girl-3")
+						img(src="/icon/play-button-1.png", style="height: 50px; margin-left: 20px; cursor: pointer")#signup-btn 
+			- // Show recent posts		
 			#right-panel
 				h3 Recent Public Posts
 				div#public-posts(style="display: flex; flex-direction: column;")
+	
+	- // Bottom floating action bar and footer
 	#footer
-		div PriCoSha
-		div An academic project by Theodore Kim and JinZhao Su
-		div Source: https://github.com/theo-kim/databases/project/pricosha
-		div Icons made by 
-			a(href="https://smashicons.com/", title="Smashicons") Smashicons
-			|  from 
-			a(href="https://www.flaticon.com/", title="Flaticon") www.flaticon.com
-			|  is licensed by 
-			a(href="http://creativecommons.org/licenses/by/3.0/", title="Creative Commons BY 3.0", target="_blank") CC 3.0 BY
-		div
-			| Avatar Icons made by 
-			a(href='http://www.freepik.com/', title='Freepik') Freepik
-			|  from 
-			a(href='https://www.flaticon.com/', title='Flaticon') www.flaticon.com
-			|  is licensed by 
-			a(href='http://creativecommons.org/licenses/by/3.0/', title='Creative Commons BY 3.0', target='_blank') CC 3.0 BY
+		- // Only show action bar if logged in	
+		- if (loggedin)
+			#action-btns
+				img#group(src="/icon/group.png", style="height: 35px;")
+				img.new-group-btn(src="/icon/new-group.png", style="height: 35px;")
+				img#search-btn(src="/icon/search.png", style="height: 35px;")
+				img#search-close(src="/icon/material-close.png", style="height: 35px; display: none;")
+				input#search-input(type="text", placeholder="Search Text", style="display:none;")
+				img#new-post(src="/icon/plus.png")
+		- // Hidden credit info
+		div#about-info
+			div PriCoSha
+			div An academic project by Theodore Kim and JinZhao Su
+			div Source: https://github.com/theo-kim/databases/project/pricosha
+			div Icons made by 
+				a(href="https://smashicons.com/", title="Smashicons") Smashicons
+				|  from 
+				a(href="https://www.flaticon.com/", title="Flaticon") www.flaticon.com
+				|  is licensed by 
+				a(href="http://creativecommons.org/licenses/by/3.0/", title="Creative Commons BY 3.0", target="_blank") CC 3.0 BY
+			div
+				| Avatar Icons made by 
+				a(href='http://www.freepik.com/', title='Freepik') Freepik
+				|  from 
+				a(href='https://www.flaticon.com/', title='Flaticon') www.flaticon.com
+				|  is licensed by 
+				a(href='http://creativecommons.org/licenses/by/3.0/', title='Creative Commons BY 3.0', target='_blank') CC 3.0 BY
 
 
 	script(src="scripts/main.js")
